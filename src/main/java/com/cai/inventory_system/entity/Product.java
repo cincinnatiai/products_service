@@ -25,13 +25,13 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacturer_id;
+    private Manufacturer manufacturer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category category_id;
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sku_id")
-    private Sku sku_id;
+    private Sku sku;
 }

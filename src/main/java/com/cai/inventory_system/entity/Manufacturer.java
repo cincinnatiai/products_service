@@ -19,7 +19,7 @@ public class Manufacturer {
     private String name;
     private String address;
     private String contact;
-    private String create_at;
+    private String created_at;
     private String updated_at;
 
 }

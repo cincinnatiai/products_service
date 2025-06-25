@@ -1,22 +1,17 @@
-package com.cai.inventory_system.entity;
+package com.cai.inventory_system.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "sku")
-public class Sku {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class CategoryDTO {
 
+    private String id;
     private String name;
     private String created_at;
     private String updated_at;
