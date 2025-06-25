@@ -62,13 +62,6 @@ created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 );
 
-CREATE TABLE status (
-id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-name VARCHAR(150) NOT NULL,
-created_at TIMESTAMP DEFAULT now(),
-updated_at TIMESTAMP DEFAULT now()
-);
-
 CREATE TABLE product (
 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 manufacturer_id UUID REFERENCES manufacturer(id),
@@ -76,7 +69,7 @@ category_id UUID REFERENCES category(id),
 name VARCHAR(50) NOT NULL,
 description VARCHAR(150),
 sku VARCHAR(50) UNIQUE NOT NULL,
-price DECIMAL(10, 2),
+qr_code BLOB
 created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 );
@@ -86,7 +79,7 @@ id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 product_id UUID NOT NULL REFERENCES product(id),
 user_id UUID,
 client_id UUID,
-status_id UUID REFERENCES status(id),
+status VARCHAR(50),
 serial_number VARCHAR(50),
 image VARCHAR(255),
 latitude DECIMAL(10, 8),
@@ -94,6 +87,51 @@ longitude DECIMAL(10, 8),
 created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 );
+
+```mermaid
+erDiagram
+    MANUFACTURER {
+        UUID id PK
+        VARCHAR name
+        TEXT address
+        VARCHAR contact
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    CATEGORY {
+        UUID id PK
+        VARCHAR name
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    PRODUCT {
+        UUID id PK
+        UUID manufacturer_id FK
+        UUID category_id FK
+        VARCHAR name
+        VARCHAR description
+        VARCHAR sku UK
+        BLOB qr_code
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    INVENTORY_ITEM {
+        UUID id PK
+        UUID product_id FK
+        UUID user_id
+        UUID client_id
+        VARCHAR status
+        VARCHAR serial_number
+        VARCHAR image
+        DECIMAL latitude
+        DECIMAL longitude
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    MANUFACTURER ||--o{ PRODUCT : "produces"
+    CATEGORY ||--o{ PRODUCT : "groups"
+    PRODUCT ||--o{ INVENTORY_ITEM : "includes"
 
 **Queries samples**
 **Track all items assigned to a user**
@@ -175,3 +213,26 @@ Since we couldn't find any existing project that provided this focused, API-firs
 
 **Our Solution:**
 We created a custom PostgreSQL-based system with 5 core tables that provides exactly the functionality we need through a clean API interface, without the overhead of unnecessary features.
+
+### 2. Database Comparison
+
+| Feature / DB                           | PostgreSQL (Self-hosted) | RDS PostgreSQL (AWS) | Aurora PostgreSQL (Serverless v2) | MySQL (RDS or Aurora) |
+|----------------------------------------|---------------------------|-----------------------|------------------------------------|------------------------|
+| **Managed by AWS**                     | No                        | Yes                   | Yes                                | Yes                    |
+| **Horizontal scaling**                 | No (manual sharding)      | No                    | Yes (auto-scaling)                 | NO                     |
+| **Vertical scaling**                   | Yes (restart required)    | Yes                   | Yes (automated)                    | Yes                    |
+| **Join support**                       | Yes                       | Yes                   | Yes                                | Yes                    |
+| **ACID compliance**                    | Yes                       | Yes                   | Yes                                | Yes                    |
+| **Advanced data types (UUID, JSONB)**  | Yes                       | Yes                   | Yes                                | Only JSON              |
+| **Auto backups / snapshots**           | Manual                    | Yes                   | Yes                                | Yes                    |
+| **Failover / High Availability**       | Manual                    | Yes (Multi-AZ)        | Yes (Aurora high availability)     | Yes                    |
+| **Startup cost**                       | Free                      | Low                   | Medium (pay-per-use)               | Low                    |
+| **Best use case**                      | Local dev, full control   | Easy production setup | Scalable, production-ready         | Simpler schemas        |
+| **Recommended for our case?**         | For dev/test              | Good                  | Best overall (on AWS)              | Ideal if lightweight   |
+
+---
+
+### Final Database Choice
+For the most robust solution, especially if we're looking to scale this project, I'd suggest the Postgres with Aurora Serverless V2 option. It's truly adaptable to the project's needs, no matter the stage. In the early stage, it'll charge based on our requests, which is perfect. But, should the service need to scale, it's also got that on-demand capability. So, if our request volume jumps, we'll handle it without problems thanks to the auto-scale feature. Plus, it comes with built-in JSON and UUID features, which will be incredibly useful here since all our IDs are UUIDs.
+Also, although our Spring Boot service needs to run independently of any specific cloud provider, this database choice still aligns with that requirement. We can run the app in any Kubernetes cluster and connect to Aurora through standard JDBC config. Nothing about this setup locks us and our API remains decoupled, and Aurora just becomes a reliable, scalable, cloud-managed backend that we can swap out if needed. It gives us the performance and flexibility now, without limiting us later.
+```
