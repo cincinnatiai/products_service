@@ -89,49 +89,53 @@ updated_at TIMESTAMP DEFAULT now()
 );
 
 ```mermaid
-erDiagram
-    MANUFACTURER {
-        UUID id PK
-        VARCHAR name
-        TEXT address
-        VARCHAR contact
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-    CATEGORY {
-        UUID id PK
-        VARCHAR name
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-    PRODUCT {
-        UUID id PK
-        UUID manufacturer_id FK
-        UUID category_id FK
-        VARCHAR name
-        VARCHAR description
-        VARCHAR sku UK
-        BLOB qr_code
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-    INVENTORY_ITEM {
-        UUID id PK
-        UUID product_id FK
-        UUID user_id
-        UUID client_id
-        VARCHAR status
-        VARCHAR serial_number
-        VARCHAR image
-        DECIMAL latitude
-        DECIMAL longitude
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
+classDiagram
+    class MANUFACTURER {
+        +UUID id
+        +String name
+        +String address
+        +String contact
+        +Timestamp created_at
+        +Timestamp updated_at
     }
 
-    MANUFACTURER ||--o{ PRODUCT : "produces"
-    CATEGORY ||--o{ PRODUCT : "groups"
-    PRODUCT ||--o{ INVENTORY_ITEM : "includes"
+    class CATEGORY {
+        +UUID id
+        +String name
+        +Timestamp created_at
+        +Timestamp updated_at
+    }
+
+    class PRODUCT {
+        +UUID id
+        +UUID manufacturer_id
+        +UUID category_id
+        +String name
+        +String description
+        +String sku
+        +Blob qr_code
+        +Timestamp created_at
+        +Timestamp updated_at
+    }
+
+    class INVENTORY_ITEM {
+        +UUID id
+        +UUID product_id
+        +UUID user_id
+        +UUID client_id
+        +String status
+        +String serial_number
+        +String image
+        +Decimal latitude
+        +Decimal longitude
+        +Timestamp created_at
+        +Timestamp updated_at
+    }
+
+    MANUFACTURER --> PRODUCT : produces
+    CATEGORY --> PRODUCT : groups
+    PRODUCT --> INVENTORY_ITEM : includes
+
 
 **Queries samples**
 **Track all items assigned to a user**
