@@ -69,7 +69,7 @@ category_id UUID REFERENCES category(id),
 name VARCHAR(50) NOT NULL,
 description VARCHAR(150),
 sku VARCHAR(50) UNIQUE NOT NULL,
-qr_code BLOB
+qr_code BLOB,
 created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 );
@@ -135,7 +135,7 @@ classDiagram
     MANUFACTURER --> PRODUCT : produces
     CATEGORY --> PRODUCT : groups
     PRODUCT --> INVENTORY_ITEM : includes
-
+```
 
 **Queries samples**
 **Track all items assigned to a user**
@@ -220,23 +220,23 @@ We created a custom PostgreSQL-based system with 5 core tables that provides exa
 
 ### 2. Database Comparison
 
-| Feature / DB                           | PostgreSQL (Self-hosted) | RDS PostgreSQL (AWS) | Aurora PostgreSQL (Serverless v2) | MySQL (RDS or Aurora) |
-|----------------------------------------|---------------------------|-----------------------|------------------------------------|------------------------|
-| **Managed by AWS**                     | No                        | Yes                   | Yes                                | Yes                    |
-| **Horizontal scaling**                 | No (manual sharding)      | No                    | Yes (auto-scaling)                 | NO                     |
-| **Vertical scaling**                   | Yes (restart required)    | Yes                   | Yes (automated)                    | Yes                    |
-| **Join support**                       | Yes                       | Yes                   | Yes                                | Yes                    |
-| **ACID compliance**                    | Yes                       | Yes                   | Yes                                | Yes                    |
-| **Advanced data types (UUID, JSONB)**  | Yes                       | Yes                   | Yes                                | Only JSON              |
-| **Auto backups / snapshots**           | Manual                    | Yes                   | Yes                                | Yes                    |
-| **Failover / High Availability**       | Manual                    | Yes (Multi-AZ)        | Yes (Aurora high availability)     | Yes                    |
-| **Startup cost**                       | Free                      | Low                   | Medium (pay-per-use)               | Low                    |
-| **Best use case**                      | Local dev, full control   | Easy production setup | Scalable, production-ready         | Simpler schemas        |
-| **Recommended for our case?**         | For dev/test              | Good                  | Best overall (on AWS)              | Ideal if lightweight   |
+| Feature / DB                          | PostgreSQL (Self-hosted) | RDS PostgreSQL (AWS)  | Aurora PostgreSQL (Serverless v2) | MySQL (RDS or Aurora) |
+| ------------------------------------- | ------------------------ | --------------------- | --------------------------------- | --------------------- |
+| **Managed by AWS**                    | No                       | Yes                   | Yes                               | Yes                   |
+| **Horizontal scaling**                | No (manual sharding)     | No                    | Yes (auto-scaling)                | NO                    |
+| **Vertical scaling**                  | Yes (restart required)   | Yes                   | Yes (automated)                   | Yes                   |
+| **Join support**                      | Yes                      | Yes                   | Yes                               | Yes                   |
+| **ACID compliance**                   | Yes                      | Yes                   | Yes                               | Yes                   |
+| **Advanced data types (UUID, JSONB)** | Yes                      | Yes                   | Yes                               | Only JSON             |
+| **Auto backups / snapshots**          | Manual                   | Yes                   | Yes                               | Yes                   |
+| **Failover / High Availability**      | Manual                   | Yes (Multi-AZ)        | Yes (Aurora high availability)    | Yes                   |
+| **Startup cost**                      | Free                     | Low                   | Medium (pay-per-use)              | Low                   |
+| **Best use case**                     | Local dev, full control  | Easy production setup | Scalable, production-ready        | Simpler schemas       |
+| **Recommended for our case?**         | For dev/test             | Good                  | Best overall (on AWS)             | Ideal if lightweight  |
 
 ---
 
 ### Final Database Choice
+
 For the most robust solution, especially if we're looking to scale this project, I'd suggest the Postgres with Aurora Serverless V2 option. It's truly adaptable to the project's needs, no matter the stage. In the early stage, it'll charge based on our requests, which is perfect. But, should the service need to scale, it's also got that on-demand capability. So, if our request volume jumps, we'll handle it without problems thanks to the auto-scale feature. Plus, it comes with built-in JSON and UUID features, which will be incredibly useful here since all our IDs are UUIDs.
 Also, although our Spring Boot service needs to run independently of any specific cloud provider, this database choice still aligns with that requirement. We can run the app in any Kubernetes cluster and connect to Aurora through standard JDBC config. Nothing about this setup locks us and our API remains decoupled, and Aurora just becomes a reliable, scalable, cloud-managed backend that we can swap out if needed. It gives us the performance and flexibility now, without limiting us later.
-```
