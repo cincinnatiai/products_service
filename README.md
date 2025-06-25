@@ -218,6 +218,23 @@ Since we couldn't find any existing project that provided this focused, API-firs
 **Our Solution:**
 We created a custom PostgreSQL-based system with 5 core tables that provides exactly the functionality we need through a clean API interface, without the overhead of unnecessary features.
 
+**Which DataBase management system should we use?**
+These are all the options and which option we choose. There's multiple options for this db selection.
+Let’s first start for the nosql db’s and why they are not great options for this case (Independent of the management system)
+
+Then we should focus on the relational options:
+
+| Requirement                          | Our Use Case Needs                   | NoSQL (DynamoDB, MongoDB, etc.) | Why It’s a Problem                                                           |
+| ------------------------------------ | ------------------------------------ | ------------------------------- | ---------------------------------------------------------------------------- |
+| **Relational modeling (FKs, joins)** | Yes                                  | No native joins                 | Our model requires joins and relations                                       |
+| **Foreign key constraints**          | Required                             | Not supported                   | Data integrity must be enforced in code                                      |
+| **Normalized schema**                | Preferred                            | Must denormalize                | You’d need to embed product info in each inventory_item doc                  |
+| **Querying by relations**            | For example, by status, type, etc... | Really complex                  | MongoDB can’t easily say “get all items in status 'IN_STOCK' in a category”  |
+| **Multiple ways to filter info**     | Required                             | Requires custom indexes         | Queries like status + location + category need complex workarounds           |
+| **Geolocation queries (lat/lng)**    | Optional / useful                    | Limited in some NoSQL engines   | Only MongoDB has reasonable support for this feature                         |
+| **Data validation (types, enums)**   | Important                            | Handled manually                | You’ll have to write application-level validation logic                      |
+| **Transaction safety**               | Required                             | Limited support                 | Some NoSQL DBs offer atomic writes, but not full ACID transaction guarantees |
+
 ### 2. Database Comparison
 
 | Feature / DB                          | PostgreSQL (Self-hosted) | RDS PostgreSQL (AWS)  | Aurora PostgreSQL (Serverless v2) | MySQL (RDS or Aurora) |
