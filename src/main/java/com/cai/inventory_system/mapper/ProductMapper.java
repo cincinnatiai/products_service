@@ -4,7 +4,6 @@ import com.cai.inventory_system.dto.ProductDTO;
 import com.cai.inventory_system.entity.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,17 +33,17 @@ public class ProductMapper {
                 productDTO.getQr_code(),
                 productDTO.getCreated_at(),
                 productDTO.getUpdated_at(),
-                productDTO.getManufacturer(),  /** I think it is better if we inject this fields in the constructor **/
-                productDTO.getCategory(),
-                productDTO.getSku()
+                productDTO.getManufacturer_id(),
+                productDTO.getCategory_id(),
+                productDTO.getSku_id()
         );
     }
 
-    public List<ProductDTO> mapToListOfProductDto(List<Product> listofproducts){
-        return listofproducts.stream().map(this::mapToProductDto).collect(Collectors.toList());
+    public List<ProductDTO> mapToListOfProductDto(List<Product> listOfProducts){
+        return listOfProducts.stream().map(this::mapToProductDto).collect(Collectors.toList());
     }
 
-    public List<Product> mapToListOfProduct(List<ProductDTO> listOfProductDto){
-        return listOfProductDto.stream().map(this::mapToProduct).collect(Collectors.toList());
+    public List<Product> mapToListOfProduct(List<ProductDTO> listOfProductsDto){
+        return listOfProductsDto.stream().map(this::mapToProduct).collect(Collectors.toList());
     }
 }
