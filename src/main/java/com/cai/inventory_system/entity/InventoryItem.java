@@ -1,5 +1,6 @@
 package com.cai.inventory_system.entity;
 
+import com.cai.inventory_system.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class InventoryItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private String product;
+    private Product product;
 
     private String client;
     private String user;

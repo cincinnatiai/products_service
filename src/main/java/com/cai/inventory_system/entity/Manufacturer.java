@@ -21,5 +21,4 @@ public class Manufacturer {
     private String contact;
     private String created_at;
     private String updated_at;
-
 }
