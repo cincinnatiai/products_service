@@ -1,6 +1,5 @@
 package com.cai.inventory_system.dto;
 
-import com.cai.inventory_system.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ public class InventoryItemDTO {
     private Float longitude;
     private String created_at;
     private String updated_at;
-    private Product product;
-    private String client;
-    private String user;
+    private String productId;
+    private String clientId;
+    private String userId;
 }
