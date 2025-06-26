@@ -11,13 +11,21 @@ import lombok.Setter;
 @Setter
 public class ProductDTO {
 
+    /** This is our primary key **/
     private String id;
+
     private String name;
     private String description;
     private String qr_code;
     private String created_at;
     private String updated_at;
-    private String manufacturerId;
-    private String categoryId;
-    private String skuId;
+
+    /** This is a foreign key with for a table manufacturers **/
+    private String manufacturer_id;
+
+    /** This is a foreign key with for a table categories **/
+    private String category_id;
+
+    /** This is a foreign key with for a table sku **/
+    private String sku_id;
 }

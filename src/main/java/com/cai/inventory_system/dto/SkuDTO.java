@@ -11,7 +11,9 @@ import lombok.Setter;
 @Setter
 public class SkuDTO {
 
+    /** This is our primary key **/
     private String id;
+
     private String name;
     private String created_at;
     private String updated_at;

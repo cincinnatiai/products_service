@@ -11,7 +11,9 @@ import lombok.Setter;
 @Setter
 public class ManufacturerDTO {
 
+    /** This is our primary key **/
     private String id;
+
     private String name;
     private String address;
     private String contact;
