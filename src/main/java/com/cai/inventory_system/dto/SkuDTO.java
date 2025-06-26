@@ -1,0 +1,20 @@
+package com.cai.inventory_system.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class SkuDTO {
+
+    /** This is our primary key **/
+    private String id;
+
+    private String name;
+    private String created_at;
+    private String updated_at;
+}
