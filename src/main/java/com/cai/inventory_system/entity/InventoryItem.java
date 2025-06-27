@@ -1,6 +1,5 @@
 package com.cai.inventory_system.entity;
 
-import com.cai.inventory_system.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,6 +2,7 @@ package com.cai.inventory_system.mapper;
 
 import com.cai.inventory_system.dto.InventoryItemDTO;
 import com.cai.inventory_system.entity.InventoryItem;
+import com.cai.inventory_system.entity.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,13 +21,16 @@ public class InventoryItemMapper {
                 inventoryItem.getLongitude(),
                 inventoryItem.getCreated_at(),
                 inventoryItem.getUpdated_at(),
-                inventoryItem.getProduct(),
+                inventoryItem.getProduct().getId(),
                 inventoryItem.getClient(),
                 inventoryItem.getUser()
         );
     }
 
     public InventoryItem mapToInventoryItem(InventoryItemDTO inventoryItemDTO){
+        Product product = new Product();
+        product.setId(inventoryItemDTO.getId());
+
         return new InventoryItem(
                 inventoryItemDTO.getId(),
                 inventoryItemDTO.getStatus(),
@@ -36,7 +40,7 @@ public class InventoryItemMapper {
                 inventoryItemDTO.getLongitude(),
                 inventoryItemDTO.getCreated_at(),
                 inventoryItemDTO.getUpdated_at(),
-                inventoryItemDTO.getProduct_id(),
+                product,
                 inventoryItemDTO.getClient_id(),
                 inventoryItemDTO.getUser_id()
         );

@@ -1,7 +1,10 @@
 package com.cai.inventory_system.mapper;
 
 import com.cai.inventory_system.dto.ProductDTO;
+import com.cai.inventory_system.entity.Category;
+import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
+import com.cai.inventory_system.entity.Sku;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,13 +22,22 @@ public class ProductMapper {
                 product.getQr_code(),
                 product.getCreated_at(),
                 product.getUpdated_at(),
-                product.getManufacturer(),
-                product.getCategory(),
-                product.getSku()
+                product.getManufacturer().getId(),
+                product.getCategory().getId(),
+                product.getSku().getId()
         );
     }
 
     public Product mapToProduct(ProductDTO productDTO){
+        Manufacturer manufacturer = new Manufacturer();
+        manufacturer.setId(productDTO.getManufacturer_id());
+
+        Category category = new Category();
+        category.setId(productDTO.getCategory_id());
+
+        Sku sku = new Sku();
+        sku.setId(productDTO.getSku_id());
+
         return new Product(
                 productDTO.getId(),
                 productDTO.getName(),
@@ -33,9 +45,9 @@ public class ProductMapper {
                 productDTO.getQr_code(),
                 productDTO.getCreated_at(),
                 productDTO.getUpdated_at(),
-                productDTO.getManufacturer_id(),
-                productDTO.getCategory_id(),
-                productDTO.getSku_id()
+                manufacturer,
+                category,
+                sku
         );
     }
 
