@@ -4,6 +4,9 @@ import com.cai.inventory_system.dto.CategoryDTO;
 import com.cai.inventory_system.entity.Category;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class CategoryMapper {
 
@@ -23,5 +26,10 @@ public class CategoryMapper {
                 categoryDTO.getCreated_at(),
                 categoryDTO.getUpdated_at()
         );
+    }
+
+    public List<CategoryDTO> mapToListOfCategoriesDto(List<Category> listOfCate){
+        return listOfCate.stream().map(this::mapToCategoryDto)
+                .collect(Collectors.toList());
     }
 }
