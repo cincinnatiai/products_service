@@ -29,7 +29,7 @@ public class InventoryItemMapper {
 
     public InventoryItem mapToInventoryItem(InventoryItemDTO inventoryItemDTO){
         Product product = new Product();
-        product.setId(inventoryItemDTO.getId());
+        product.setId(inventoryItemDTO.getProduct_id());
 
         return new InventoryItem(
                 inventoryItemDTO.getId(),
