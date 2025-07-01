@@ -7,9 +7,11 @@ import com.cai.inventory_system.mapper.SkuMapper;
 import com.cai.inventory_system.repository.SkuRepository;
 import com.cai.inventory_system.service.SkuService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,12 @@ public class SkuServiceImpl implements SkuService {
 
     private final SkuMapper skuMapper;
     private final SkuRepository skuRepository;
+    private final MessageSource messageSource;
+
+    private Sku getProductOrThrowException(String id) {
+        return skuRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product_not_found", null, Locale.getDefault())));
+    }
 
     @Override
     public SkuDTO createSku(SkuDTO skuDTO) {
@@ -27,12 +35,12 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public SkuDTO getSkuById(String id) {
-        return skuMapper.mapToSkuDTO(skuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sku id not found")));
+        return skuMapper.mapToSkuDTO(getProductOrThrowException(id));
     }
 
     @Override
     public SkuDTO updateSku(SkuDTO skuDTO, String id) {
-        Sku skuToEdit = skuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sku id not found"));
+        Sku skuToEdit = getProductOrThrowException(id);
         skuToEdit.setName(skuDTO.getName());
         skuToEdit.setCreated_at(skuDTO.getCreated_at());
         skuToEdit.setCreated_at(skuDTO.getUpdated_at());
@@ -41,7 +49,7 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public SkuDTO deleteSku(String id) {
-        SkuDTO skuDtoToEraseById = skuMapper.mapToSkuDTO(skuRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sku id not found")));
+        SkuDTO skuDtoToEraseById = skuMapper.mapToSkuDTO(getProductOrThrowException(id));
         skuRepository.deleteById(id);
         return skuDtoToEraseById;
     }

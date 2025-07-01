@@ -22,8 +22,8 @@ public class InventoryItemMapper {
                 inventoryItem.getCreated_at(),
                 inventoryItem.getUpdated_at(),
                 inventoryItem.getProduct().getId(),
-                inventoryItem.getClient(),
-                inventoryItem.getUser()
+                inventoryItem.getClient_id(),
+                inventoryItem.getUser_id()
         );
     }
 
