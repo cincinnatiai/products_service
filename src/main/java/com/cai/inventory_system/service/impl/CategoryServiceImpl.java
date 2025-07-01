@@ -7,10 +7,11 @@ import com.cai.inventory_system.mapper.CategoryMapper;
 import com.cai.inventory_system.repository.CategoryRepository;
 import com.cai.inventory_system.service.CategoryService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +19,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
+    private final MessageSource messageSource;
+
+    private Category getCategoryOrThrowException(String id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product_not_found", null, Locale.getDefault())));
+    }
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
@@ -33,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryById(String id) {
-        return categoryMapper.mapToCategoryDto(categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category Id not found")));
+        return categoryMapper.mapToCategoryDto(getCategoryOrThrowException(id));
     }
 
     @Override
@@ -43,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO updateCategoryById(CategoryDTO categoryDTO, String id) {
-        Category categoryToEdit = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category Id not found"));
+        Category categoryToEdit = getCategoryOrThrowException(id);
         categoryToEdit.setName(categoryDTO.getName());
         categoryToEdit.setCreated_at(categoryDTO.getCreated_at());
         categoryToEdit.setUpdated_at(categoryDTO.getUpdated_at());

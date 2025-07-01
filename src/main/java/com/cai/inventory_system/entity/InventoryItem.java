@@ -29,6 +29,6 @@ public class InventoryItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private String client;
-    private String user;
+    private String client_id;
+    private String user_id;
 }

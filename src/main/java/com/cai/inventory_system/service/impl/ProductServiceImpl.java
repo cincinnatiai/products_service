@@ -10,9 +10,11 @@ import com.cai.inventory_system.mapper.ProductMapper;
 import com.cai.inventory_system.repository.ProductRepository;
 import com.cai.inventory_system.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
+    private final MessageSource messageSource;
+
+    private Product getProductOrThrowException(String id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product_not_found", null, Locale.getDefault())));
+    }
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
@@ -30,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(String id) {
-        return productMapper.mapToProductDto(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product Id not found")));
+        return productMapper.mapToProductDto(getProductOrThrowException(id));
     }
 
     @Override
@@ -40,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO deleteProduct(String id) {
-        ProductDTO productDtoToDeleteById = productMapper.mapToProductDto(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product Id not found")));
+        ProductDTO productDtoToDeleteById = productMapper.mapToProductDto(getProductOrThrowException(id));
         productRepository.deleteById(id);
         return productDtoToDeleteById;
     }
@@ -56,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
         Sku sku = new Sku();
         sku.setId(productDTO.getSku_id());
 
-        Product productToEdit = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product Id not found"));
+        Product productToEdit = getProductOrThrowException(id);
         productToEdit.setName(productDTO.getName());
         productToEdit.setDescription(productToEdit.getDescription());
         productToEdit.setQr_code(productToEdit.getQr_code());
