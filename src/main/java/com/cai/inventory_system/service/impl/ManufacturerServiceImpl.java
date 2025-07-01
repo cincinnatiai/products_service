@@ -35,7 +35,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public ManufacturerDTO getManufacturerById(String id) {
         Manufacturer manufacturer = manufacturerRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Use a correct Manufacturer id")
+                ()-> new ResourceNotFoundException("Manufacturer id not found")
         );
         return manufacturerMapper.mapToManufacturerDto(manufacturer);
     }
@@ -43,7 +43,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public ManufacturerDTO updateManufacturer(String id, ManufacturerDTO manufacturerDTO) {
         Manufacturer manufacturer = manufacturerRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Use a correct Manufacturer id")
+                ()-> new ResourceNotFoundException("Manufacturer id not found")
         );
         manufacturer.setName(manufacturerDTO.getName());
         manufacturer.setAddress(manufacturerDTO.getAddress());
@@ -58,7 +58,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public void deleteManufacturer(String id) {
         Manufacturer manufacturer = manufacturerRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Use a correct Manufacturer id")
+                ()-> new ResourceNotFoundException("Manufacturer id not found")
         );
         manufacturerRepository.delete(manufacturer);
     }
