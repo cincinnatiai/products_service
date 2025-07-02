@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "inventory_item")
+@Table(name = "inventory_items")
 public class InventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -7,10 +7,13 @@ import com.cai.inventory_system.mapper.InventoryItemMapper;
 import com.cai.inventory_system.repository.InventoryItemRepository;
 import com.cai.inventory_system.service.InventoryItemService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class InventoryItemServiceImpl implements InventoryItemService {
@@ -19,14 +22,16 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     private InventoryItemMapper inventoryItemMapper;
 
     @Override
-    public InventoryItemDTO createInventoryItem(InventoryItemDTO inventoryItemDTO) {
+    @NonNull
+    public InventoryItemDTO createInventoryItem(@NonNull  InventoryItemDTO inventoryItemDTO) {
         InventoryItem inventoryItem = inventoryItemMapper.mapToInventoryItem(inventoryItemDTO);
         InventoryItem savedItem = inventoryItemRepository.save(inventoryItem);
         return inventoryItemMapper.mapToInventoryItemDTO(savedItem);
     }
 
     @Override
-    public InventoryItemDTO getInventoryItemById(String id) {
+    @NonNull
+    public InventoryItemDTO getInventoryItemById(@NonNull String id) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Item id not found")
         );
@@ -34,12 +39,13 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     @Override
+    @NonNull
     public List<InventoryItemDTO> getAllInventoryItems() {
         return inventoryItemMapper.mapToListOfInventoryItemsDTO(inventoryItemRepository.findAll());
     }
 
     @Override
-    public void deleteInventoryItem(String id) {
+    public void deleteInventoryItem(@NonNull String id) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Item id not found")
         );
@@ -47,7 +53,8 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     @Override
-    public InventoryItemDTO updateInventoryItem(InventoryItemDTO inventoryItemDTO, String id) {
+    @Nullable
+    public InventoryItemDTO updateInventoryItem(@NonNull InventoryItemDTO inventoryItemDTO, @NonNull String id) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Item id not found")
         );
@@ -56,8 +63,9 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         inventoryItem.setImage(inventoryItem.getImage());
         inventoryItem.setLatitude(inventoryItem.getLatitude());
         inventoryItem.setLongitude(inventoryItem.getLongitude());
-
+        log.info("Updating inventory item...");
         InventoryItem updatedItem = inventoryItemRepository.save(inventoryItem);
+        log.info("Item with id={} updated", id );
         return inventoryItemMapper.mapToInventoryItemDTO(updatedItem);
     }
 }
