@@ -7,6 +7,8 @@ import com.cai.inventory_system.mapper.ManufacturerMapper;
 import com.cai.inventory_system.repository.ManufacturerRepository;
 import com.cai.inventory_system.service.ManufacturerService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +55,13 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
         Manufacturer updatedTodo = manufacturerRepository.save(manufacturer);
         return manufacturerMapper.mapToManufacturerDto(updatedTodo);
+    }
+
+    @Override
+    public Page<ManufacturerDTO> getManufacturersByPage(Pageable pageable) {
+        Page<Manufacturer> manufacturers = manufacturerRepository.findAll(pageable);
+        return manufacturers.map(manufacturerMapper::mapToManufacturerDto);
+
     }
 
     @Override
