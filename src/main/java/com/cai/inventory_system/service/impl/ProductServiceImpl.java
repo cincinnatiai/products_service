@@ -11,6 +11,8 @@ import com.cai.inventory_system.repository.ProductRepository;
 import com.cai.inventory_system.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,10 +49,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO deleteProduct(String id) {
+    public void deleteProduct(String id) {
         ProductDTO productDtoToDeleteById = productMapper.mapToProductDto(getProductOrThrowException(id));
         productRepository.deleteById(id);
-        return productDtoToDeleteById;
+
     }
 
     @Override
@@ -75,5 +77,11 @@ public class ProductServiceImpl implements ProductService {
         productToEdit.setSku(sku);
 
         return productMapper.mapToProductDto(productToEdit);
+    }
+
+    @Override
+    public Page<ProductDTO> getProductsByPage(Pageable pageable) {
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.map(productMapper::mapToProductDto);
     }
 }
