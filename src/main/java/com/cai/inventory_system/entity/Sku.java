@@ -11,11 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "sku")
+@Table(name = "skus")
 public class Sku {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     private String name;
     private String created_at;
     private String updated_at;

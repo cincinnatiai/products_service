@@ -2,6 +2,8 @@ package com.cai.inventory_system.service.impl;
 
 import com.cai.inventory_system.dto.InventoryItemDTO;
 import com.cai.inventory_system.entity.InventoryItem;
+import com.cai.inventory_system.entity.Location;
+import com.cai.inventory_system.entity.Product;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.InventoryItemMapper;
 import com.cai.inventory_system.repository.InventoryItemRepository;
@@ -51,7 +53,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Item id not found")
         );
-        inventoryItemRepository.deleteById(id);
+        inventoryItemRepository.delete(inventoryItem);
     }
 
     @Override
@@ -60,11 +62,21 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         InventoryItem inventoryItem = inventoryItemRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Item id not found")
         );
+
+        Product product = new Product();
+        product.setId(inventoryItemDTO.getProduct_id());
+
+        Location location = new Location();
+        location.setId(inventoryItemDTO.getLocation_id());
         inventoryItem.setStatus(inventoryItemDTO.getStatus());
         inventoryItem.setSerial_number(inventoryItemDTO.getSerial_number());
         inventoryItem.setImage(inventoryItemDTO.getImage());
         inventoryItem.setLatitude(inventoryItemDTO.getLatitude());
         inventoryItem.setLongitude(inventoryItemDTO.getLongitude());
+        inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
+
+
         log.info("Updating inventory item...");
         log.info(inventoryItem.getStatus());
         InventoryItem updatedItem = inventoryItemRepository.save(inventoryItem);

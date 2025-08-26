@@ -5,6 +5,7 @@ import com.cai.inventory_system.entity.Category;
 import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
 import com.cai.inventory_system.entity.Sku;
+import com.cai.inventory_system.exception.ResourceAlreadyExistsException;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.ProductMapper;
 import com.cai.inventory_system.repository.ProductRepository;
@@ -14,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +35,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
+        String name = productDTO.getName();
+        if(productRepository.existsByName(name)){
+            throw new ResourceAlreadyExistsException("Product with name " + name + " already exists, please try another name");
+        }
         Product productToSave = productMapper.mapToProduct(productDTO);
         productRepository.save(productToSave);
         return productMapper.mapToProductDto(productToSave);
@@ -50,8 +56,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(String id) {
-        ProductDTO productDtoToDeleteById = productMapper.mapToProductDto(getProductOrThrowException(id));
-        productRepository.deleteById(id);
+       Product product = productRepository.findById(id).orElseThrow(
+               () -> new ResourceNotFoundException("Product with id " + id + " not found")
+       );
+        productRepository.delete(product);
 
     }
 
@@ -68,15 +76,16 @@ public class ProductServiceImpl implements ProductService {
 
         Product productToEdit = getProductOrThrowException(id);
         productToEdit.setName(productDTO.getName());
-        productToEdit.setDescription(productToEdit.getDescription());
-        productToEdit.setQr_code(productToEdit.getQr_code());
+        productToEdit.setDescription(productDTO.getDescription());
+        productToEdit.setQr_code(productDTO.getQr_code());
         productToEdit.setCreated_at(productDTO.getCreated_at());
-        productToEdit.setUpdated_at(productToEdit.getUpdated_at());
+        productToEdit.setUpdated_at(productDTO.getUpdated_at());
         productToEdit.setManufacturer(manufacturer);
         productToEdit.setCategory(category);
         productToEdit.setSku(sku);
+        Product updatedProduct = productRepository.save(productToEdit);
 
-        return productMapper.mapToProductDto(productToEdit);
+        return productMapper.mapToProductDto(updatedProduct);
     }
 
     @Override
