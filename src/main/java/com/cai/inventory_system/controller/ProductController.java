@@ -67,4 +67,12 @@ public class ProductController {
         Page<ProductDTO> products = productService.getProductsByPage(pageable);
         return  ResponseEntity.ok(products);
     }
+    @PostMapping("/batch")
+    public ResponseEntity<List<ProductDTO>> createBaseProducts(@RequestBody List<ProductDTO> productDTOS){
+        List<ProductDTO> createdProducts = productDTOS.stream()
+                .map(productService::createProduct)
+                .toList();
+        return new ResponseEntity<>(createdProducts, HttpStatus.CREATED);
+    }
+
 }
