@@ -1,6 +1,8 @@
 package com.cai.inventory_system.service.impl;
 
+import com.cai.inventory_system.dto.ManufacturerDTO;
 import com.cai.inventory_system.dto.SkuDTO;
+import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Sku;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.SkuMapper;
@@ -8,6 +10,8 @@ import com.cai.inventory_system.repository.SkuRepository;
 import com.cai.inventory_system.service.SkuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +48,8 @@ public class SkuServiceImpl implements SkuService {
         skuToEdit.setName(skuDTO.getName());
         skuToEdit.setCreated_at(skuDTO.getCreated_at());
         skuToEdit.setCreated_at(skuDTO.getUpdated_at());
-        return skuMapper.mapToSkuDTO(skuToEdit);
+        Sku updatedSku = skuRepository.save(skuToEdit);
+        return skuMapper.mapToSkuDTO(updatedSku);
     }
 
     @Override
@@ -57,5 +62,11 @@ public class SkuServiceImpl implements SkuService {
     @Override
     public List<SkuDTO> getAllSku() {
         return skuMapper.mapToSkuDtoList(skuRepository.findAll());
+    }
+
+    @Override
+    public Page<SkuDTO> getSkuByPage(Pageable pageable) {
+    Page<Sku> skus = skuRepository.findAll(pageable);
+        return skus.map(skuMapper::mapToSkuDTO);
     }
 }

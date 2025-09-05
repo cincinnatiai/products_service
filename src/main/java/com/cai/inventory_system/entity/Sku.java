@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "sku")
+@Table(name = "skus")
 public class Sku {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

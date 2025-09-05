@@ -1,6 +1,8 @@
 package com.cai.inventory_system.service;
 
 import com.cai.inventory_system.dto.InventoryItemDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -22,4 +24,7 @@ public interface InventoryItemService {
 
     @Nullable
     InventoryItemDTO updateInventoryItem(@NonNull InventoryItemDTO inventoryItemDTO, @NonNull String id);
+
+    @NonNull
+    Page<InventoryItemDTO> getInventoryItemsByPage(@NonNull Pageable pageable);
 }
