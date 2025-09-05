@@ -24,6 +24,9 @@ public class InventoryItemDTO {
     /** This is a foreign key with for a table products **/
     private String product_id;
 
+    /** This is a foreign key with for a table locations **/
+    private String location_id;
+
     /** This is a foreign key with for a table clients **/
     private String client_id;
 

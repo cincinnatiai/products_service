@@ -56,7 +56,14 @@ public class CategoryServiceImpl implements CategoryService {
         categoryToEdit.setName(categoryDTO.getName());
         categoryToEdit.setCreated_at(categoryDTO.getCreated_at());
         categoryToEdit.setUpdated_at(categoryDTO.getUpdated_at());
-        return categoryMapper.mapToCategoryDto(categoryToEdit);
+        Category savedCategory = categoryRepository.save(categoryToEdit);
+        return categoryMapper.mapToCategoryDto(savedCategory);
+    }
+
+    @Override
+    public Page<CategoryDTO> getCategoriesByPage(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(categoryMapper::mapToCategoryDto);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.cai.inventory_system.service.impl;
 
 import com.cai.inventory_system.dto.ManufacturerDTO;
 import com.cai.inventory_system.entity.Manufacturer;
+import com.cai.inventory_system.exception.ResourceAlreadyExistsException;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.ManufacturerMapper;
 import com.cai.inventory_system.repository.ManufacturerRepository;
@@ -23,6 +24,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public ManufacturerDTO createManufacturer(ManufacturerDTO manufacturerDTO) {
+        String name = manufacturerDTO.getName();
+        if(manufacturerRepository.existsByName(name)){
+            throw new ResourceAlreadyExistsException("Manufacturer with name " + name + " already exists, please try another name");
+        }
+
         Manufacturer manufacturer = manufacturerMapper.mapToManufacturer(manufacturerDTO);
         Manufacturer savedManufacturer = manufacturerRepository.save(manufacturer);
         return manufacturerMapper.mapToManufacturerDto(savedManufacturer);

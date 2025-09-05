@@ -48,7 +48,8 @@ public class SkuServiceImpl implements SkuService {
         skuToEdit.setName(skuDTO.getName());
         skuToEdit.setCreated_at(skuDTO.getCreated_at());
         skuToEdit.setCreated_at(skuDTO.getUpdated_at());
-        return skuMapper.mapToSkuDTO(skuToEdit);
+        Sku updatedSku = skuRepository.save(skuToEdit);
+        return skuMapper.mapToSkuDTO(updatedSku);
     }
 
     @Override

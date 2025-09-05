@@ -2,8 +2,10 @@ package com.cai.inventory_system.controller;
 
 import com.cai.inventory_system.dto.InventoryItemDTO;
 import com.cai.inventory_system.entity.InventoryItem;
+import com.cai.inventory_system.entity.Location;
 import com.cai.inventory_system.entity.Product;
 import com.cai.inventory_system.repository.InventoryItemRepository;
+import com.cai.inventory_system.repository.LocationRepository;
 import com.cai.inventory_system.repository.ProductRepository;
 import com.cai.inventory_system.utils.PaginationResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,12 +37,16 @@ public class InventoryItemControllerIntegrationTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     private String getRootUrl() { return "http://localhost:" + port + "/api/items"; }
 
     @BeforeEach
     public void setup(){
         inventoryItemRepository.deleteAll();
         productRepository.deleteAll();
+        locationRepository.deleteAll();
 
     }
 
@@ -48,8 +54,11 @@ public class InventoryItemControllerIntegrationTest {
     public void testCreateInventoryItem(){
         Product product = new Product();
         product.setName("product");
-
         product = productRepository.save(product);
+
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
 
         InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
         inventoryItemDTO.setStatus("ACTIVE");
@@ -57,6 +66,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItemDTO.setImage("image");
         inventoryItemDTO.setLatitude(1331.123f);
         inventoryItemDTO.setLongitude(0987654.543f);
+        inventoryItemDTO.setLocation_id(location.getId());
         inventoryItemDTO.setProduct_id(product.getId());
         inventoryItemDTO.setClient_id("4636");
         inventoryItemDTO.setUser_id("325");
@@ -74,6 +84,10 @@ public class InventoryItemControllerIntegrationTest {
         product.setName("product");
         product = productRepository.save(product);
 
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
+
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
         inventoryItem.setSerial_number("1234");
@@ -81,6 +95,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
         inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
@@ -91,6 +106,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem2.setLatitude(1331.123f);
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
+        inventoryItem2.setLocation(location);
         inventoryItem2.setClient_id("4636");
         inventoryItem2.setUser_id("325");
 
@@ -109,6 +125,10 @@ public class InventoryItemControllerIntegrationTest {
         product.setName("product");
         product = productRepository.save(product);
 
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
+
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
         inventoryItem.setSerial_number("1234");
@@ -116,6 +136,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
         inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
@@ -126,6 +147,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem2.setLatitude(1331.123f);
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
+        inventoryItem2.setLocation(location);
         inventoryItem2.setClient_id("4636");
         inventoryItem2.setUser_id("325");
 
@@ -148,6 +170,10 @@ public class InventoryItemControllerIntegrationTest {
         product.setName("product");
         product = productRepository.save(product);
 
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
+
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
         inventoryItem.setSerial_number("1234");
@@ -155,6 +181,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
         inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
@@ -174,6 +201,10 @@ public class InventoryItemControllerIntegrationTest {
         product.setName("product");
         product = productRepository.save(product);
 
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
+
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
         inventoryItem.setSerial_number("1234");
@@ -181,6 +212,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
         inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
@@ -193,6 +225,7 @@ public class InventoryItemControllerIntegrationTest {
         updated.setLatitude(1234.567f);
         updated.setLongitude(8765.432f);
         updated.setProduct_id(product.getId());
+        updated.setLocation_id(location.getId());
         updated.setClient_id("46362");
         updated.setUser_id("3251");
 
@@ -216,6 +249,10 @@ public class InventoryItemControllerIntegrationTest {
         product.setName("product");
         product = productRepository.save(product);
 
+        Location location = new Location();
+        location.setTitle("location");
+        location = locationRepository.save(location);
+
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
         inventoryItem.setSerial_number("1234");
@@ -223,6 +260,7 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
+        inventoryItem.setLocation(location);
         inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
