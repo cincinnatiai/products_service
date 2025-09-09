@@ -76,7 +76,6 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
 
-
         log.info("Updating inventory item...");
         log.info(inventoryItem.getStatus());
         InventoryItem updatedItem = inventoryItemRepository.save(inventoryItem);

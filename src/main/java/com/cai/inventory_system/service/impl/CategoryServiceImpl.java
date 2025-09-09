@@ -65,4 +65,10 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.map(categoryMapper::mapToCategoryDto);
     }
+
+    @Override
+    public Page<CategoryDTO> getCategoriesByPage(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(categoryMapper::mapToCategoryDto);
+    }
 }
