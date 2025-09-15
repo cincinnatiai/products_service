@@ -2,6 +2,7 @@ package com.cai.inventory_system.service.impl;
 
 import com.cai.inventory_system.dto.CategoryDTO;
 import com.cai.inventory_system.entity.Category;
+import com.cai.inventory_system.exception.ResourceAlreadyExistsException;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.CategoryMapper;
 import com.cai.inventory_system.repository.CategoryRepository;
@@ -30,6 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+        categoryRepository.findByName(categoryDTO.getName()).ifPresent(
+                category -> {
+                    throw new ResourceAlreadyExistsException("Category with name " + categoryDTO.getName() + " already exists");
+                }
+        );
         Category categoryToSave = categoryMapper.mapToCategory(categoryDTO);
         Category savedCategory = categoryRepository.save(categoryToSave);
         return categoryMapper.mapToCategoryDto(savedCategory);
@@ -52,6 +58,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO updateCategoryById(CategoryDTO categoryDTO, String id) {
+
+        categoryRepository.findByName(categoryDTO.getName()).ifPresent(
+                category -> {
+                    throw new ResourceAlreadyExistsException("Category with name " + categoryDTO.getName() + " already exists");
+                }
+        );
         Category categoryToEdit = getCategoryOrThrowException(id);
         categoryToEdit.setName(categoryDTO.getName());
         categoryToEdit.setCreated_at(categoryDTO.getCreated_at());
@@ -67,8 +79,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDTO> getCategoriesByPage(Pageable pageable) {
-        Page<Category> categories = categoryRepository.findAll(pageable);
-        return categories.map(categoryMapper::mapToCategoryDto);
+    public List<CategoryDTO> searchCategoriesByName(String name) {
+        List<Category> categories = categoryRepository.findByNameContainingIgnoreCase(name);
+        return categoryMapper.mapToListOfCategoriesDto(categories);
     }
+
+
+
 }

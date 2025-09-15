@@ -19,6 +19,7 @@ import java.util.Locale;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin("*")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -67,4 +68,14 @@ public class CategoryController {
         Page<CategoryDTO> categories = categoryService.getCategoriesByPage(pageable);
         return ResponseEntity.ok(categories);
     }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<CategoryDTO>> createBaseCategories(@RequestBody List<CategoryDTO> categoryDTOS){
+        List<CategoryDTO> createdCategories = categoryDTOS.stream().map(categoryService:: createCategory).toList();
+        return new ResponseEntity<>(createdCategories, HttpStatus.CREATED);
+    }
+
+
+
+
 }
