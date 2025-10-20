@@ -74,8 +74,4 @@ public class CategoryController {
         List<CategoryDTO> createdCategories = categoryDTOS.stream().map(categoryService:: createCategory).toList();
         return new ResponseEntity<>(createdCategories, HttpStatus.CREATED);
     }
-
-
-
-
 }
