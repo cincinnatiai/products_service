@@ -13,4 +13,6 @@ public interface CategoryService {
     void deleteCategoryById(String id);
     CategoryDTO updateCategoryById(CategoryDTO categoryDTO, String id);
     Page<CategoryDTO> getCategoriesByPage(Pageable pageable);
+    List<CategoryDTO> searchCategoriesByName(String name);
+
 }
