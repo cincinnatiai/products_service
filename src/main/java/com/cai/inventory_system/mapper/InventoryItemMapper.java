@@ -24,7 +24,6 @@ public class InventoryItemMapper {
                 inventoryItem.getUpdated_at(),
                 inventoryItem.getProduct().getId(),
                 inventoryItem.getLocation().getId(),
-                inventoryItem.getClient_id(),
                 inventoryItem.getUser_id()
         );
     }
@@ -46,7 +45,6 @@ public class InventoryItemMapper {
                 inventoryItemDTO.getUpdated_at(),
                 product,
                 location,
-                inventoryItemDTO.getClient_id(),
                 inventoryItemDTO.getUser_id()
         );
     }

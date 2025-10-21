@@ -68,6 +68,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 
         Location location = new Location();
         location.setId(inventoryItemDTO.getLocation_id());
+
         inventoryItem.setStatus(inventoryItemDTO.getStatus());
         inventoryItem.setSerial_number(inventoryItemDTO.getSerial_number());
         inventoryItem.setImage(inventoryItemDTO.getImage());
@@ -75,6 +76,7 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         inventoryItem.setLongitude(inventoryItemDTO.getLongitude());
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
+        inventoryItem.setUser_id(inventoryItem.getUser_id());
 
         log.info("Updating inventory item...");
         log.info(inventoryItem.getStatus());

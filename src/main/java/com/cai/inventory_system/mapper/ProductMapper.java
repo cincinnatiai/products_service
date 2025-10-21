@@ -22,21 +22,28 @@ public class ProductMapper {
                 product.getQr_code(),
                 product.getCreated_at(),
                 product.getUpdated_at(),
-                product.getManufacturer().getId(),
+                product.getManufacturer() != null ? product.getManufacturer().getId() : null,
                 product.getCategory().getId(),
-                product.getSku().getId()
+                product.getSku() != null ? product.getSku().getId() : null,
+                product.getAccount_id()
         );
     }
 
     public Product mapToProduct(ProductDTO productDTO){
-        Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setId(productDTO.getManufacturer_id());
+        Manufacturer manufacturer = null;
+        if (productDTO.getManufacturer_id() != null) {
+            manufacturer = new Manufacturer();
+            manufacturer.setId(productDTO.getManufacturer_id());
+        }
 
         Category category = new Category();
         category.setId(productDTO.getCategory_id());
 
-        Sku sku = new Sku();
-        sku.setId(productDTO.getSku_id());
+        Sku sku = null;
+        if (productDTO.getSku_id() != null) {
+            sku = new Sku();
+            sku.setId(productDTO.getSku_id());
+        }
 
         return new Product(
                 productDTO.getId(),
@@ -47,7 +54,8 @@ public class ProductMapper {
                 productDTO.getUpdated_at(),
                 manufacturer,
                 category,
-                sku
+                sku,
+                productDTO.getAccount_id()
         );
     }
 
