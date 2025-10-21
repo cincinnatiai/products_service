@@ -36,9 +36,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         String name = productDTO.getName();
-        if(productRepository.existsByName(name)){
-            throw new ResourceAlreadyExistsException("Product with name " + name + " already exists, please try another name");
-        }
         Product productToSave = productMapper.mapToProduct(productDTO);
         productRepository.save(productToSave);
         return productMapper.mapToProductDto(productToSave);
@@ -83,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
         productToEdit.setManufacturer(manufacturer);
         productToEdit.setCategory(category);
         productToEdit.setSku(sku);
+        productToEdit.setAccount_id(productDTO.getAccount_id());
         Product updatedProduct = productRepository.save(productToEdit);
 
         return productMapper.mapToProductDto(updatedProduct);
@@ -94,9 +92,5 @@ public class ProductServiceImpl implements ProductService {
         return products.map(productMapper::mapToProductDto);
     }
 
-    @Override
-    public Page<ProductDTO> getProductsByPage(Pageable pageable) {
-        Page<Product> products = productRepository.findAll(pageable);
-        return products.map(productMapper::mapToProductDto);
-    }
+
 }
