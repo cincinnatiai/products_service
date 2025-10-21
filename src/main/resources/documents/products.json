@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Wireless Mouse",
+    "description": "Ergonomic wireless mouse with USB receiver",
+    "price": 29.99,
+    "stockQuantity": 150,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Mechanical Keyboard",
+    "description": "RGB backlit mechanical keyboard with blue switches",
+    "price": 89.99,
+    "stockQuantity": 75,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "HD Monitor",
+    "description": "24-inch Full HD LED monitor",
+    "price": 149.99,
+    "stockQuantity": 40,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "USB-C Hub",
+    "description": "Multi-port USB-C hub with HDMI and USB 3.0",
+    "price": 49.99,
+    "stockQuantity": 100,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "External Hard Drive",
+    "description": "1TB portable external hard drive",
+    "price": 69.99,
+    "stockQuantity": 85,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Gaming Chair",
+    "description": "Ergonomic gaming chair with adjustable armrests",
+    "price": 199.99,
+    "stockQuantity": 20,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Webcam",
+    "description": "1080p HD USB webcam with microphone",
+    "price": 59.99,
+    "stockQuantity": 60,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Bluetooth Headset",
+    "description": "Noise-cancelling wireless Bluetooth headset",
+    "price": 79.99,
+    "stockQuantity": 110,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Smartphone Stand",
+    "description": "Adjustable desktop smartphone stand",
+    "price": 14.99,
+    "stockQuantity": 300,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Laptop Cooling Pad",
+    "description": "Silent fan laptop cooling pad with LED lights",
+    "price": 39.99,
+    "stockQuantity": 90,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Portable Projector",
+    "description": "Mini portable projector with HDMI support",
+    "price": 229.99,
+    "stockQuantity": 25,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Smartwatch",
+    "description": "Fitness tracker smartwatch with heart rate monitor",
+    "price": 99.99,
+    "stockQuantity": 140,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Power Bank",
+    "description": "20000mAh portable power bank",
+    "price": 49.99,
+    "stockQuantity": 200,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Wireless Earbuds",
+    "description": "True wireless earbuds with charging case",
+    "price": 69.99,
+    "stockQuantity": 180,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Graphic Tablet",
+    "description": "Drawing graphic tablet with pen",
+    "price": 129.99,
+    "stockQuantity": 35,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Desk Lamp",
+    "description": "LED desk lamp with adjustable brightness",
+    "price": 34.99,
+    "stockQuantity": 120,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Portable Speaker",
+    "description": "Bluetooth waterproof portable speaker",
+    "price": 59.99,
+    "stockQuantity": 95,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Gaming Mouse Pad",
+    "description": "Large RGB extended gaming mouse pad",
+    "price": 24.99,
+    "stockQuantity": 250,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Smart Home Plug",
+    "description": "WiFi smart plug compatible with Alexa and Google Home",
+    "price": 19.99,
+    "stockQuantity": 160,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  },
+  {
+    "name": "Router",
+    "description": "Dual-band WiFi 6 router",
+    "price": 139.99,
+    "stockQuantity": 50,
+    "sku_id": "ad96ef11-e591-4024-a457-23d53a7c9e37",
+    "manufacturer_id": "6473a167-370c-42b6-b457-48d01eee7e98",
+    "category_id": "11751055-68d8-4e56-b63d-a9fe008565d0"
+  }
+]

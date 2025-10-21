@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Electronics",
+    "created_at": "2025-09-10T15:46:00.000Z",
+    "updated_at": "2025-09-10T15:46:00.000Z"
+  },
+  {
+    "name": "Apparel",
+    "created_at": "2025-09-10T15:46:05.000Z",
+    "updated_at": "2025-09-10T15:46:05.000Z"
+  },
+  {
+    "name": "Home & Kitchen",
+    "created_at": "2025-09-10T15:46:10.000Z",
+    "updated_at": "2025-09-10T15:46:10.000Z"
+  },
+  {
+    "name": "Beauty & Personal Care",
+    "created_at": "2025-09-10T15:46:15.000Z",
+    "updated_at": "2025-09-10T15:46:15.000Z"
+  },
+  {
+    "name": "Sports & Outdoors",
+    "created_at": "2025-09-10T15:46:20.000Z",
+    "updated_at": "2025-09-10T15:46:20.000Z"
+  },
+  {
+    "name": "Books",
+    "created_at": "2025-09-10T15:46:25.000Z",
+    "updated_at": "2025-09-10T15:46:25.000Z"
+  },
+  {
+    "name": "Toys & Games",
+    "created_at": "2025-09-10T15:46:30.000Z",
+    "updated_at": "2025-09-10T15:46:30.000Z"
+  },
+  {
+    "name": "Groceries",
+    "created_at": "2025-09-10T15:46:35.000Z",
+    "updated_at": "2025-09-10T15:46:35.000Z"
+  },
+  {
+    "name": "Health",
+    "created_at": "2025-09-10T15:46:40.000Z",
+    "updated_at": "2025-09-10T15:46:40.000Z"
+  },
+  {
+    "name": "Automotive",
+    "created_at": "2025-09-10T15:46:45.000Z",
+    "updated_at": "2025-09-10T15:46:45.000Z"
+  },
+  {
+    "name": "Pet Supplies",
+    "created_at": "2025-09-10T15:46:50.000Z",
+    "updated_at": "2025-09-10T15:46:50.000Z"
+  },
+  {
+    "name": "Baby Products",
+    "created_at": "2025-09-10T15:46:55.000Z",
+    "updated_at": "2025-09-10T15:46:55.000Z"
+  },
+  {
+    "name": "Office Supplies",
+    "created_at": "2025-09-10T15:47:00.000Z",
+    "updated_at": "2025-09-10T15:47:00.000Z"
+  },
+  {
+    "name": "Arts & Crafts",
+    "created_at": "2025-09-10T15:47:05.000Z",
+    "updated_at": "2025-09-10T15:47:05.000Z"
+  },
+  {
+    "name": "Garden & Patio",
+    "created_at": "2025-09-10T15:47:10.000Z",
+    "updated_at": "2025-09-10T15:47:10.000Z"
+  },
+  {
+    "name": "Movies & TV",
+    "created_at": "2025-09-10T15:47:15.000Z",
+    "updated_at": "2025-09-10T15:47:15.000Z"
+  },
+  {
+    "name": "Music",
+    "created_at": "2025-09-10T15:47:20.000Z",
+    "updated_at": "2025-09-10T15:47:20.000Z"
+  },
+  {
+    "name": "Jewelry",
+    "created_at": "2025-09-10T15:47:25.000Z",
+    "updated_at": "2025-09-10T15:47:25.000Z"
+  },
+  {
+    "name": "Tools & Home Improvement",
+    "created_at": "2025-09-10T15:47:30.000Z",
+    "updated_at": "2025-09-10T15:47:30.000Z"
+  },
+  {
+    "name": "Handmade",
+    "created_at": "2025-09-10T15:47:35.000Z",
+    "updated_at": "2025-09-10T15:47:35.000Z"
+  }
+]
