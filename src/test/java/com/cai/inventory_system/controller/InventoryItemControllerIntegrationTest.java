@@ -17,12 +17,14 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class InventoryItemControllerIntegrationTest {
 
     @LocalServerPort
@@ -68,7 +70,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItemDTO.setLongitude(0987654.543f);
         inventoryItemDTO.setLocation_id(location.getId());
         inventoryItemDTO.setProduct_id(product.getId());
-        inventoryItemDTO.setClient_id("4636");
         inventoryItemDTO.setUser_id("325");
 
         ResponseEntity<InventoryItemDTO> response = restTemplate.postForEntity(getRootUrl(), inventoryItemDTO, InventoryItemDTO.class);
@@ -96,7 +97,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
         InventoryItem inventoryItem2 = new InventoryItem();
@@ -107,7 +107,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
         inventoryItem2.setLocation(location);
-        inventoryItem2.setClient_id("4636");
         inventoryItem2.setUser_id("325");
 
 
@@ -137,7 +136,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
         InventoryItem inventoryItem2 = new InventoryItem();
@@ -148,7 +146,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
         inventoryItem2.setLocation(location);
-        inventoryItem2.setClient_id("4636");
         inventoryItem2.setUser_id("325");
 
         inventoryItemRepository.saveAll(Arrays.asList(inventoryItem, inventoryItem2));
@@ -182,7 +179,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
         inventoryItem = inventoryItemRepository.save(inventoryItem);
@@ -213,7 +209,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
         inventoryItem = inventoryItemRepository.save(inventoryItem);
@@ -226,7 +221,6 @@ public class InventoryItemControllerIntegrationTest {
         updated.setLongitude(8765.432f);
         updated.setProduct_id(product.getId());
         updated.setLocation_id(location.getId());
-        updated.setClient_id("46362");
         updated.setUser_id("3251");
 
         HttpEntity<InventoryItemDTO> requestEntity = new HttpEntity<>(updated);
@@ -261,7 +255,6 @@ public class InventoryItemControllerIntegrationTest {
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setClient_id("4636");
         inventoryItem.setUser_id("325");
 
         ResponseEntity<Void> deleteResponse = restTemplate.exchange(

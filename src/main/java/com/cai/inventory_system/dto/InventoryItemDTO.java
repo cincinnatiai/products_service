@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class InventoryItemDTO {
+public class  InventoryItemDTO {
 
     /** This is our primary key **/
     private String id;
@@ -26,9 +26,6 @@ public class InventoryItemDTO {
 
     /** This is a foreign key with for a table locations **/
     private String location_id;
-
-    /** This is a foreign key with for a table clients **/
-    private String client_id;
 
     /** This is a foreign key with for a table users **/
     private String user_id;

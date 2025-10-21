@@ -33,6 +33,5 @@ public class InventoryItem {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    private String client_id;
     private String user_id;
 }
