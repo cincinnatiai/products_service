@@ -29,6 +29,17 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/nicholaspark09/ssr</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -76,6 +87,11 @@
 			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>converter-gson</artifactId>
 			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.cincinnatiai</groupId>
+			<artifactId>ssr-java</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 

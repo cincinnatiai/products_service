@@ -104,6 +104,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductDTO> getProductsByAccountId(String accountId, Pageable pageable) {
+        Page<Product> products = productRepository.findByAccountId(accountId, pageable);
+        return products.map(productMapper::mapToProductDto);
+    }
+
+    @Override
     public List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId) {
         AccountCategoryEntity accountCategory = new AccountCategoryEntity();
         accountCategory.setId(accountCategoryId);
