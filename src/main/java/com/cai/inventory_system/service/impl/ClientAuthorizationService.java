@@ -1,4 +1,4 @@
-package com.cai.inventory_system.service;
+package com.cai.inventory_system.service.impl;
 
 import com.cai.inventory_system.client.AuthorizationApiClient;
 import com.cai.inventory_system.model.request.AuthenticationRequest;
@@ -25,8 +25,8 @@ public class ClientAuthorizationService {
     private final MeterRegistry meterRegistry;
 
     public ClientAuthorizationService(
-            @Value("${authorization.endpoint:}") String endpoint,
-            @Value("${authorization.api.key:}") String apiKey,
+            @Value("${authorization.endpoint}") String endpoint,
+            @Value("${authorization.api.key}") String apiKey,
             MeterRegistry meterRegistry) {
 
         this.endpoint = endpoint;
