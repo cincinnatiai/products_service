@@ -115,7 +115,7 @@ public class ProductControllerIntegrationTest {
         product.setManufacturer(manufacturer);
         product.setCategory(category);
         product.setSku(sku);
-        product.setAccount_id("account12345");
+        product.setAccountId("account12345");
 
 
         Product product2 = new Product();
@@ -125,7 +125,7 @@ public class ProductControllerIntegrationTest {
         product2.setManufacturer(manufacturer);
         product2.setCategory(category);
         product2.setSku(sku);
-        product2.setAccount_id("account12345");
+        product2.setAccountId("account12345");
 
         productRepository.saveAll(Arrays.asList(product, product2));
 
@@ -164,7 +164,7 @@ public class ProductControllerIntegrationTest {
         product.setManufacturer(manufacturer);
         product.setCategory(category);
         product.setSku(sku);
-        product.setAccount_id("account12345");
+        product.setAccountId("account12345");
 
         Product product2 = new Product();
         product2.setName("Product2");
@@ -173,7 +173,7 @@ public class ProductControllerIntegrationTest {
         product2.setManufacturer(manufacturer);
         product2.setCategory(category);
         product2.setSku(sku);
-        product2.setAccount_id("account12345");
+        product2.setAccountId("account12345");
 
         productRepository.saveAll(Arrays.asList(product, product2));
         ResponseEntity<PaginationResponse<ProductDTO>> response = restTemplate.exchange(
@@ -210,7 +210,7 @@ public class ProductControllerIntegrationTest {
         product.setManufacturer(manufacturer);
         product.setCategory(category);
         product.setSku(sku);
-        product.setAccount_id("account12345");
+        product.setAccountId("account12345");
 
         product = productRepository.save(product);
 
@@ -243,7 +243,7 @@ public class ProductControllerIntegrationTest {
         product.setManufacturer(manufacturer);
         product.setCategory(category);
         product.setSku(sku);
-        product.setAccount_id("account12345");
+        product.setAccountId("account12345");
 
         product = productRepository.save(product);
 
@@ -293,7 +293,7 @@ public class ProductControllerIntegrationTest {
         product.setManufacturer(manufacturer);
         product.setCategory(category);
         product.setSku(sku);
-        product.setAccount_id("account12345");
+        product.setAccountId("account12345");
 
 
         ResponseEntity<Void> deleteResponse = restTemplate.exchange(

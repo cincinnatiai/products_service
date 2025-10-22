@@ -7,7 +7,6 @@ import lombok.Setter;
 
 /**
  * Generic API response wrapper for external API calls.
- * Similar to Go's response.Response[T] type.
  *
  * @param <T> The type of data contained in the response
  */

@@ -25,7 +25,7 @@ public class ProductMapper {
                 product.getManufacturer() != null ? product.getManufacturer().getId() : null,
                 product.getCategory().getId(),
                 product.getSku() != null ? product.getSku().getId() : null,
-                product.getAccount_id()
+                product.getAccountId()
         );
     }
 

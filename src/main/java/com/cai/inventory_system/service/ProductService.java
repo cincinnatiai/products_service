@@ -13,4 +13,5 @@ public interface ProductService{
     void deleteProduct(String id);
     ProductDTO updateProduct(ProductDTO productDTO, String id);
     Page<ProductDTO> getProductsByPage(Pageable pageable);
+    List<ProductDTO> getProductsByAccountId(String accountId);
 }

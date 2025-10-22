@@ -8,7 +8,6 @@ import lombok.Setter;
 
 /**
  * Request model for client authorization.
- * Corresponds to Go's AuthenticationRequest struct.
  */
 @AllArgsConstructor
 @NoArgsConstructor
