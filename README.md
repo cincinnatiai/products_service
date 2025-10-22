@@ -77,6 +77,7 @@ sku_id UUID REFERENCES sku(id),
 name VARCHAR(50) NOT NULL,
 description VARCHAR(150),
 qr_code BLOB,
+account_id UUID,
 created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 );
@@ -85,7 +86,6 @@ CREATE TABLE inventory_item (
 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 product_id UUID NOT NULL REFERENCES product(id),
 user_id UUID,
-client_id UUID,
 status VARCHAR(50),
 serial_number VARCHAR(50),
 image VARCHAR(255),
@@ -125,6 +125,7 @@ updated_at TIMESTAMP DEFAULT now()
         +String name
         +String description
         +Blob qr_code
+        +UUID account_id
         +Timestamp created_at
         +Timestamp updated_at
     }
@@ -132,7 +133,6 @@ updated_at TIMESTAMP DEFAULT now()
         +UUID id
         +UUID product_id
         +UUID user_id
-        +UUID client_id
         +String status
         +String serial_number
         +String image
@@ -199,7 +199,7 @@ Snipe-IT is a free, open-source, web-based asset management system primarily use
 - **Complex Integrations:** You might have to stitch together connectors and APIs, especially for proprietary ERPs or homegrown systems
 - **Vendor/License Lock‑In:** Enterprise features in open-source platforms can tie you to vendor contracts and versioning constraints
 
-## 4.-Recommendation
+## 4.Recommendation
 
 Our recommendation is to build our own “Products” table over the use of an external database. Although a third‑party solution might offer some convenience, the subscription costs provide little added value compared to what we’d gain by developing internally. By writing our own table we ensure full customization to our specific data structures—attributes, variants, relationships—retain complete control over performance, security, and integrations, and benefit from predictable long‑term costs without recurring fee and the main advantage for us is to be able to adapt the system to our needs.
 
@@ -269,7 +269,62 @@ For the most robust solution, especially if we're looking to scale this project,
 Also, although our Spring Boot service needs to run independently of any specific cloud provider, this database choice still aligns with that requirement. We can run the app in any Kubernetes cluster and connect to Aurora through standard JDBC config. Nothing about this setup locks us and our API remains decoupled, and Aurora just becomes a reliable, scalable, cloud-managed backend that we can swap out if needed. It gives us the performance and flexibility now, without limiting us later.
 
 
-### Cdk
+## 5 Set up the application locally
+1. Install Homebrew on your computer in case you don’t have it .Go to the next link and follow the instructions to get Homwebrew. [Homebrew](https://brew.sh/)
+2. Make sure that you have postgresql installed in your computer.
+- Run  this command to check if you have Postgres installed locally
+```bash
+postgres --version
+```
+- You should see something like the next lines:
+```bash
+examplecomputer@MacBook-Air ~ %  postgres --version
+postgres (PostgreSQL) 14.18 (Homebrew)
+```
+- In case you don’t have postgres run the next command:
+```bash
+brew install postgresql@14
+```
+3. Install Postgres app
+- Go to the next website: [Postgres Application](https://postgresapp.com/)
+- Download the latest stable version. This will download a .dmg file.
+- Install the application moving the Postgres.app icon into your Applications folder
+4. Initialize the sever by double-click in the app icon to launch it. 
+NOTE: The first time it runs, it will ask you to "Initialize" a new server. Click Initialize. After that the app will run in the menu and show a green light, indicating the server is Running.
+5. Create a new database using the postgres app.
+- Click on connect and chose any of the databases that are there by default.
+- Run the next command to create a new database:
+```sql
+CREATE DATABASE your_db_name;
+```
+**You can also create a database using the terminal:**
+```sql
+ psql postgres
+```
+Then run this command: 
+```sql
+CREATE DATABASE springboot_project_db;
+```
+To check the databases you have created run this command:
+```bash
+\l
+```
+
+6. To run the application locally substitute the content with the next lines:
+```bash
+#application.properties
+spring.application.name=inventory_system
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_db_name
+spring.datasource.username=your_db_username
+spring.datasource.password=your_db_password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+```
+if you don't set and password you can leave the password field empty.
+
+## 6. Cdk
 The AWS Cloud Development Kit (CDK) helps you to provision the entire required AWS environment, serving as the blueprint for the Spring Boot application. For the inventory service, you can find the GitHub repository for the CDK project related to it in the link below.
 Repository:
-https://github.com/cincinnatiai/cdk_inventory_service
+[Cdk Github Repository] (https://github.com/cincinnatiai/cdk_inventory_service)
+
