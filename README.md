@@ -297,6 +297,19 @@ NOTE: The first time it runs, it will ask you to "Initialize" a new server. Clic
 ```sql
 CREATE DATABASE your_db_name;
 ```
+**You can also create a database using the terminal:**
+```sql
+ psql postgres
+```
+Then run this command: 
+```sql
+CREATE DATABASE springboot_project_db;
+```
+To check the databases you have created run this command:
+```bash
+\l
+```
+
 6. To run the application locally substitute the content with the next lines:
 ```bash
 #application.properties
