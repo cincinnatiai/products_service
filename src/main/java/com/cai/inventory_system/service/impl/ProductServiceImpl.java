@@ -1,6 +1,7 @@
 package com.cai.inventory_system.service.impl;
 
 import com.cai.inventory_system.dto.ProductDTO;
+import com.cai.inventory_system.entity.AccountCategoryEntity;
 import com.cai.inventory_system.entity.Category;
 import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
@@ -68,6 +69,12 @@ public class ProductServiceImpl implements ProductService {
         Sku sku = new Sku();
         sku.setId(productDTO.getSku_id());
 
+        AccountCategoryEntity accountCategory = null;
+        if (productDTO.getAccount_category_id() != null) {
+            accountCategory = new AccountCategoryEntity();
+            accountCategory.setId(productDTO.getAccount_category_id());
+        }
+
         Product productToEdit = getProductOrThrowException(id);
         productToEdit.setName(productDTO.getName());
         productToEdit.setDescription(productDTO.getDescription());
@@ -77,6 +84,7 @@ public class ProductServiceImpl implements ProductService {
         productToEdit.setManufacturer(manufacturer);
         productToEdit.setCategory(category);
         productToEdit.setSku(sku);
+        productToEdit.setAccountCategory(accountCategory);
         productToEdit.setAccountId(productDTO.getAccount_id());
         Product updatedProduct = productRepository.save(productToEdit);
 
@@ -92,6 +100,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProductsByAccountId(String accountId) {
         final List<Product> products = productRepository.findByAccountId(accountId);
+        return productMapper.mapToListOfProductDto(products);
+    }
+
+    @Override
+    public List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId) {
+        AccountCategoryEntity accountCategory = new AccountCategoryEntity();
+        accountCategory.setId(accountCategoryId);
+        final List<Product> products = productRepository.findByAccountCategory(accountCategory);
         return productMapper.mapToListOfProductDto(products);
     }
 

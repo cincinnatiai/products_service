@@ -82,4 +82,11 @@ public class ProductController {
         List<ProductDTO> products = productService.getProductsByAccountId(accountId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+    @GetMapping("/account-category/{accountCategoryId}")
+    public ResponseEntity<List<ProductDTO>> getProductsByAccountCategoryId(
+            @PathVariable String accountCategoryId) {
+        List<ProductDTO> products = productService.getProductsByAccountCategoryId(accountCategoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

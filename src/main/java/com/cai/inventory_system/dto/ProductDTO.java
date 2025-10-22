@@ -29,5 +29,7 @@ public class ProductDTO {
     /** This is a foreign key with for a table sku **/
     private String sku_id;
 
+    private String account_category_id;
+
     private String account_id;
 }
