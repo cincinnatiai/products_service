@@ -25,10 +25,6 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     @Override
     public ManufacturerDTO createManufacturer(ManufacturerDTO manufacturerDTO) {
         String name = manufacturerDTO.getName();
-        if(manufacturerRepository.existsByName(name)){
-            throw new ResourceAlreadyExistsException("Manufacturer with name " + name + " already exists, please try another name");
-        }
-
         Manufacturer manufacturer = manufacturerMapper.mapToManufacturer(manufacturerDTO);
         Manufacturer savedManufacturer = manufacturerRepository.save(manufacturer);
         return manufacturerMapper.mapToManufacturerDto(savedManufacturer);

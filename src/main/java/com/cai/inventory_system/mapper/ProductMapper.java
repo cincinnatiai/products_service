@@ -1,6 +1,7 @@
 package com.cai.inventory_system.mapper;
 
 import com.cai.inventory_system.dto.ProductDTO;
+import com.cai.inventory_system.entity.AccountCategoryEntity;
 import com.cai.inventory_system.entity.Category;
 import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
@@ -25,7 +26,8 @@ public class ProductMapper {
                 product.getManufacturer() != null ? product.getManufacturer().getId() : null,
                 product.getCategory().getId(),
                 product.getSku() != null ? product.getSku().getId() : null,
-                product.getAccount_id()
+                product.getAccountCategory() != null ? product.getAccountCategory().getId() : null,
+                product.getAccountId()
         );
     }
 
@@ -45,6 +47,12 @@ public class ProductMapper {
             sku.setId(productDTO.getSku_id());
         }
 
+        AccountCategoryEntity accountCategory = null;
+        if (productDTO.getAccount_category_id() != null) {
+            accountCategory = new AccountCategoryEntity();
+            accountCategory.setId(productDTO.getAccount_category_id());
+        }
+
         return new Product(
                 productDTO.getId(),
                 productDTO.getName(),
@@ -55,6 +63,7 @@ public class ProductMapper {
                 manufacturer,
                 category,
                 sku,
+                accountCategory,
                 productDTO.getAccount_id()
         );
     }

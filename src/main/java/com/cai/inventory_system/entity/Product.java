@@ -11,7 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "products")
+@Table(name = "products", indexes = {
+        @Index(name = "product_idx_account_id", columnList = "account_id")
+})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -35,5 +37,10 @@ public class Product {
     @JoinColumn(name = "sku_id", nullable = true)
     private Sku sku;
 
-    private String account_id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "account_category_id", nullable = true)
+    private AccountCategoryEntity accountCategory;
+
+    @Column(name = "account_id")
+    private String accountId;
 }
