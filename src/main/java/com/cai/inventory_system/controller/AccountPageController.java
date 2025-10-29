@@ -1,11 +1,13 @@
 package com.cai.inventory_system.controller;
 
 import com.cai.inventory_system.dto.AccountCategoryDTO;
-import com.cai.inventory_system.dto.AccountPageHomeDTO;
 import com.cai.inventory_system.dto.ProductDTO;
 import com.cai.inventory_system.service.AccountCategoryService;
 import com.cai.inventory_system.service.CategoryService;
 import com.cai.inventory_system.service.ProductService;
+import com.cincinnatiai.ssr_java.SSR;
+import com.cincinnatiai.ssr_java.model.NodeModel;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +48,8 @@ public class AccountPageController {
         this.executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
-    @GetMapping("/accounts/home")
-    public ResponseEntity<AccountPageHomeDTO> getAccountPageHome(@PathVariable String accountId) {
+    @GetMapping("/accounts/{accountId}/home")
+    public ResponseEntity<String> getAccountPageHome(@PathVariable String accountId) {
         final CountDownLatch latch = new CountDownLatch(2);
         List<AccountCategoryDTO> categories = new ArrayList<>();
         List<ProductDTO> products = new ArrayList<>();
@@ -69,6 +71,70 @@ public class AccountPageController {
                 latch.countDown();
             }
         });
+        return ResponseEntity.ok(SSR.toJson(createAccountPageHome(products)));
+    }
 
+    @NonNull
+    private NodeModel createAccountPageHome(List<ProductDTO> products) {
+        return SSR.column()
+                .modifier(SSR.modifier().padding(16).verticalScroll())
+                .addChild(
+                        SSR.card()
+                                .elevation(8)
+                                .modifier(
+                                        SSR.modifier()
+                                                .fillMaxWidth()
+                                                .paddingBottom(16)
+                                )
+                                .addChild(
+                                        SSR.column()
+                                                .modifier(SSR.modifier().padding(16))
+                                                .addChild(
+                                                        SSR.row()
+                                                                .modifier(SSR.modifier().padding(16)
+                                                                        .fillMaxWidth())
+                                                                .addChild(
+                                                                        SSR.text("Products")
+                                                                                .textStyle(
+                                                                                        SSR.textStyle()
+                                                                                                .fontSize(20)
+                                                                                                .bold()
+                                                                                ).modifier(SSR.modifier().weight(1))
+                                                                )
+                                                                .addChild(
+                                                                        SSR.button("Categories")
+                                                                                .action("show-modal:categories")
+                                                                                .modifier(SSR.modifier().padding(16))
+                                                                )
+                                                )
+                                                .addChild(
+                                                        buildProductsTable(products)
+                                                )
+                                )
+                )
+                .build();
+    }
+
+    @NonNull
+    private NodeModel buildProductsTable(List<ProductDTO> products) {
+        return SSR.table()
+                .showBorders(true)
+                .headerBackgroundColor("#6200EE")
+                .addColumn(
+                        SSR.column("Product")
+                                .weight(2.0f)
+                                .horizontalAlignment("start")
+                )
+                .addColumn(
+                        SSR.column("description")
+                                .weight(1.5f)
+                                .horizontalAlignment("start")
+                )
+                .addColumn(
+                        SSR.column("Category")
+                                .weight(1.0f)
+                                .horizontalAlignment("center")
+                )
+                .build();
     }
 }
