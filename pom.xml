@@ -93,6 +93,20 @@
 			<artifactId>ssr-java</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+		<!-- Micrometer Tracing for distributed tracing -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
+		<!-- SLF4J for logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
