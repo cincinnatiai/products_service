@@ -92,4 +92,18 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         Page<InventoryItem> inventoryItems = inventoryItemRepository.findAll(pageable);
         return inventoryItems.map(inventoryItemMapper::mapToInventoryItemDTO);
     }
+
+    @Override
+    @NonNull
+    public List<InventoryItemDTO> searchInventoryItemsByStatus(@NonNull String status) {
+        List<InventoryItem> inventoryItems = inventoryItemRepository.findByStatusContainingIgnoreCase(status);
+        return inventoryItemMapper.mapToListOfInventoryItemsDTO(inventoryItems);
+    }
+
+    @Override
+    @NonNull
+    public List<InventoryItemDTO> searchInventoryItemsByProductId(@NonNull String productId) {
+        List<InventoryItem> inventoryItems = inventoryItemRepository.findByProductId(productId);
+        return inventoryItemMapper.mapToListOfInventoryItemsDTO(inventoryItems);
+    }
 }
