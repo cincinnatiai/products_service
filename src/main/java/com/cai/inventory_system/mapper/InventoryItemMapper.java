@@ -3,6 +3,7 @@ package com.cai.inventory_system.mapper;
 import com.cai.inventory_system.dto.InventoryItemDTO;
 import com.cai.inventory_system.entity.InventoryItem;
 import com.cai.inventory_system.entity.Location;
+import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,9 @@ public class InventoryItemMapper {
                 inventoryItem.getCreated_at(),
                 inventoryItem.getUpdated_at(),
                 inventoryItem.getProduct().getId(),
-                inventoryItem.getLocation().getId(),
+                inventoryItem.getProduct().getName(),
+                inventoryItem.getLocation() != null ? inventoryItem.getLocation().getId() : null,
+                inventoryItem.getLocation() != null ? inventoryItem.getLocation().getTitle() : null,
                 inventoryItem.getUser_id()
         );
     }
@@ -31,8 +34,13 @@ public class InventoryItemMapper {
     public InventoryItem mapToInventoryItem(InventoryItemDTO inventoryItemDTO){
         Product product = new Product();
         product.setId(inventoryItemDTO.getProduct_id());
-        Location location = new Location();
-        location.setId(inventoryItemDTO.getLocation_id());
+
+        Location location = null;
+        if (inventoryItemDTO.getLocation_id() != null) {
+            location = new Location();
+            location.setId(inventoryItemDTO.getLocation_id());
+        }
+
 
         return new InventoryItem(
                 inventoryItemDTO.getId(),

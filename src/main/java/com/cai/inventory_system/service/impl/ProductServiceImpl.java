@@ -6,6 +6,7 @@ import com.cai.inventory_system.entity.Category;
 import com.cai.inventory_system.entity.Manufacturer;
 import com.cai.inventory_system.entity.Product;
 import com.cai.inventory_system.entity.Sku;
+import com.cai.inventory_system.exception.ResourceAlreadyExistsException;
 import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.ProductMapper;
 import com.cai.inventory_system.repository.ProductRepository;
@@ -34,7 +35,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
-        String name = productDTO.getName();
+        productRepository.findByName(productDTO.getName()).ifPresent(
+                product -> {
+                    throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
+                }
+        );
         Product productToSave = productMapper.mapToProduct(productDTO);
         productRepository.save(productToSave);
         return productMapper.mapToProductDto(productToSave);
@@ -60,6 +65,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(ProductDTO productDTO, String id) {
+
+        productRepository.findByName(productDTO.getName()).ifPresent(
+                product -> {
+                    throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
+                }
+        );
         Manufacturer manufacturer = new Manufacturer();
         manufacturer.setId(productDTO.getManufacturer_id());
 
@@ -114,6 +125,17 @@ public class ProductServiceImpl implements ProductService {
         AccountCategoryEntity accountCategory = new AccountCategoryEntity();
         accountCategory.setId(accountCategoryId);
         final List<Product> products = productRepository.findByAccountCategory(accountCategory);
+        return productMapper.mapToListOfProductDto(products);
+    }
+
+    @Override
+    public List<ProductDTO> searchProductsByName(String name){
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+        return productMapper.mapToListOfProductDto(products);
+    }
+    @Override
+    public List<ProductDTO> searchProductsByCategoryId(String categoryId){
+        List<Product> products = productRepository.findByCategoryId(categoryId);
         return productMapper.mapToListOfProductDto(products);
     }
 

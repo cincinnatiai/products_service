@@ -29,8 +29,8 @@ public class InventoryItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "location_id", nullable = true)
     private Location location;
 
     private String user_id;

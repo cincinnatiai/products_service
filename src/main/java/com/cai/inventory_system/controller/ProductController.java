@@ -51,7 +51,7 @@ public class ProductController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>(messageSource.getMessage("resource_deleted", null, Locale.getDefault()), HttpStatus.OK);
+        return  ResponseEntity.ok("The Product was deleted successfully");
     }
 
     @GetMapping("/page")
@@ -87,6 +87,18 @@ public class ProductController {
     public ResponseEntity<List<ProductDTO>> getProductsByAccountCategoryId(
             @PathVariable String accountCategoryId) {
         List<ProductDTO> products = productService.getProductsByAccountCategoryId(accountCategoryId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDTO>> searchProductsByName(@RequestParam String name){
+        List<ProductDTO> matchedProducts = productService.searchProductsByName(name);
+        return new ResponseEntity<>(matchedProducts, HttpStatus.OK);
+    }
+
+    @GetMapping("by-category/{categoryId}/all")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategoryId(
+            @PathVariable String categoryId) {
+        List<ProductDTO> products = productService.searchProductsByCategoryId(categoryId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

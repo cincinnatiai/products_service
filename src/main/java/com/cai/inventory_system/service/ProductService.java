@@ -16,4 +16,6 @@ public interface ProductService{
     List<ProductDTO> getProductsByAccountId(String accountId);
     Page<ProductDTO> getProductsByAccountId(String accountId, Pageable pageable);
     List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId);
+    List<ProductDTO> searchProductsByName(String name);
+    List<ProductDTO> searchProductsByCategoryId(String categoryId);
 }

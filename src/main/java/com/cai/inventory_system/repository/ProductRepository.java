@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, String>{
 
@@ -15,4 +16,9 @@ public interface ProductRepository extends JpaRepository<Product, String>{
     Page<Product> findByAccountId(String accountId, Pageable pageable);
 
     List<Product> findByAccountCategory(AccountCategoryEntity accountCategory);
+    List<Product> findByNameContainingIgnoreCase(String name);
+    boolean existsByName(String name);
+    Optional<Product> findByName(String name);
+    List<Product> findByCategoryId(String categoryId);
+
 }

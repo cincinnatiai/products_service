@@ -46,7 +46,7 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCategoryById(@PathVariable String id){
         categoryService.deleteCategoryById(id);
-        return new ResponseEntity<>(messageSource.getMessage("resource_deleted", null, Locale.getDefault()), HttpStatus.OK);
+        return ResponseEntity.ok("The Category was deleted successfully");
     }
 
     @PutMapping("{id}")
@@ -73,5 +73,11 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> createBaseCategories(@RequestBody List<CategoryDTO> categoryDTOS){
         List<CategoryDTO> createdCategories = categoryDTOS.stream().map(categoryService:: createCategory).toList();
         return new ResponseEntity<>(createdCategories, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CategoryDTO>> searchCategoriesByName(@RequestParam String name) {
+        List<CategoryDTO> matchedCategories = categoryService.searchCategoriesByName(name);
+        return new ResponseEntity<>(matchedCategories, HttpStatus.OK);
     }
 }

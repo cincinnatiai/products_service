@@ -16,7 +16,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/items")
+@RequestMapping("api/inventory-items")
+@CrossOrigin("*")
 public class InventoryItemController {
 
     private InventoryItemService inventoryItemService;
@@ -65,5 +66,18 @@ public class InventoryItemController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(dir, sortBy));
         Page<InventoryItemDTO> inventoryItems = inventoryItemService.getInventoryItemsByPage(pageable);
         return ResponseEntity.ok(inventoryItems);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<InventoryItemDTO>> searchInventoryItemsByName(
+            @RequestParam("status") String status) {
+        List<InventoryItemDTO> inventoryItems = inventoryItemService.searchInventoryItemsByStatus(status);
+        return ResponseEntity.ok(inventoryItems);
+    }
+
+    @GetMapping("/by-product/{productId}/all")
+    public ResponseEntity<List<InventoryItemDTO>> getProductsByProductId(@PathVariable String productId){
+        List<InventoryItemDTO> products = inventoryItemService.searchInventoryItemsByProductId(productId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }
