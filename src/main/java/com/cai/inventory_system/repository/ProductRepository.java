@@ -1,5 +1,6 @@
 package com.cai.inventory_system.repository;
 
+import com.cai.inventory_system.dto.ProductDTO;
 import com.cai.inventory_system.entity.AccountCategoryEntity;
 import com.cai.inventory_system.entity.Product;
 import org.springframework.data.domain.Page;
@@ -20,5 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, String>{
     boolean existsByName(String name);
     Optional<Product> findByName(String name);
     List<Product> findByCategoryId(String categoryId);
+    Optional<Product> findByNameAndIdNot(String name, String id);
+
 
 }

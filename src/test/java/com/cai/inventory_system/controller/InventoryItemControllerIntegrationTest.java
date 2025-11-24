@@ -42,7 +42,7 @@ public class InventoryItemControllerIntegrationTest {
     @Autowired
     private LocationRepository locationRepository;
 
-    private String getRootUrl() { return "http://localhost:" + port + "/api/items"; }
+    private String getRootUrl() { return "http://localhost:" + port + "/api/inventory-items"; }
 
     @BeforeEach
     public void setup(){

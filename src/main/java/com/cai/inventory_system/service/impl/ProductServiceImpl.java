@@ -66,19 +66,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO updateProduct(ProductDTO productDTO, String id) {
 
-        productRepository.findByName(productDTO.getName()).ifPresent(
+        productRepository.findByNameAndIdNot(productDTO.getName(), id ).ifPresent(
                 product -> {
                     throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
                 }
         );
-        Manufacturer manufacturer = new Manufacturer();
-        manufacturer.setId(productDTO.getManufacturer_id());
+
+        Manufacturer manufacturer = null;
+        if (productDTO.getManufacturer_id() != null) {
+            manufacturer = new Manufacturer();
+            manufacturer.setId(productDTO.getManufacturer_id());
+        }
+
 
         Category category = new Category();
         category.setId(productDTO.getCategory_id());
 
-        Sku sku = new Sku();
-        sku.setId(productDTO.getSku_id());
+        Sku sku = null;
+        if(productDTO.getSku_id() != null){
+            sku = new Sku();
+            sku.setId(productDTO.getSku_id());
+        }
 
         AccountCategoryEntity accountCategory = null;
         if (productDTO.getAccount_category_id() != null) {
