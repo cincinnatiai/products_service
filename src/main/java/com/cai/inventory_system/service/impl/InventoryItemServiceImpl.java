@@ -66,8 +66,11 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         Product product = new Product();
         product.setId(inventoryItemDTO.getProduct_id());
 
-        Location location = new Location();
-        location.setId(inventoryItemDTO.getLocation_id());
+        Location location = null;
+        if (inventoryItemDTO.getLocation_id() != null) {
+            location = new Location();
+            location.setId(inventoryItemDTO.getLocation_id());
+        }
 
         inventoryItem.setStatus(inventoryItemDTO.getStatus());
         inventoryItem.setSerial_number(inventoryItemDTO.getSerial_number());
