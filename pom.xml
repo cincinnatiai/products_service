@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.cai</groupId>
 	<artifactId>inventory_system</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<name>inventory_system</name>
 	<description>Project for product inventory service</description>
 	<url/>

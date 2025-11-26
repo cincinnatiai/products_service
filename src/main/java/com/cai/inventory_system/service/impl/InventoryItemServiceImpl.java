@@ -73,6 +73,8 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         }
 
         inventoryItem.setStatus(inventoryItemDTO.getStatus());
+        inventoryItem.setTitle(inventoryItemDTO.getTitle());
+        inventoryItem.setDescription(inventoryItemDTO.getDescription());
         inventoryItem.setSerial_number(inventoryItemDTO.getSerial_number());
         inventoryItem.setImage(inventoryItemDTO.getImage());
         inventoryItem.setLatitude(inventoryItemDTO.getLatitude());
@@ -98,8 +100,8 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 
     @Override
     @NonNull
-    public List<InventoryItemDTO> searchInventoryItemsByStatus(@NonNull String status) {
-        List<InventoryItem> inventoryItems = inventoryItemRepository.findByStatusContainingIgnoreCase(status);
+    public List<InventoryItemDTO> searchInventoryItemsByTitle(@NonNull String title) {
+        List<InventoryItem> inventoryItems = inventoryItemRepository.findByTitleContainingIgnoreCase(title);
         return inventoryItemMapper.mapToListOfInventoryItemsDTO(inventoryItems);
     }
 

@@ -14,6 +14,8 @@ public class  InventoryItemDTO {
     /** This is our primary key **/
     private String id;
     private String status;
+    private String title;
+    private String description;
     private String serial_number;
     private String image;
     private Float latitude;
