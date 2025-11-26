@@ -29,7 +29,7 @@ public interface InventoryItemService {
     Page<InventoryItemDTO> getInventoryItemsByPage(@NonNull Pageable pageable);
 
     @NonNull
-    List<InventoryItemDTO> searchInventoryItemsByStatus(@NonNull String name);
+    List<InventoryItemDTO> searchInventoryItemsByTitle(@NonNull String title);
 
     @NonNull
     List<InventoryItemDTO> searchInventoryItemsByProductId(@NonNull String productId);
