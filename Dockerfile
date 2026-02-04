@@ -1,6 +1,5 @@
-FROM amazoncorretto:21-alpine
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY target/inventory_system-0.0.6-SNAPSHOT.jar app.jar
 EXPOSE 8080
-VOLUME /tmp
-ARG JAR_FILE=*.jar
-COPY inventory_system-0.0.5-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
