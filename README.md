@@ -328,3 +328,140 @@ The AWS Cloud Development Kit (CDK) helps you to provision the entire required A
 Repository:
 [Cdk Github Repository] (https://github.com/cincinnatiai/cdk_inventory_service)
 
+## 7. Local computer Setup using Docker 
+This section will show you how to Setup the Inventory project. 
+
+1. To build the jar file with the project first we need to run the next command:
+    - Substitute the data in your application.properties with the next: 
+        ```bash
+        #application.properties
+        spring.application.name=inventory_system
+      
+        spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/inventory_db}
+        spring.datasource.username=${SPRING_DATASOURCE_USERNAME:DB_USER_CREDENTIALS}
+        spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:DB_PASSWORD_CREDENTIALS}
+        spring.jpa.hibernate.ddl-auto=update
+        spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+        authorization.endpoint=${AUTHORIZATION_ENDPOINT:http://localhost:8081}
+        authorization.api.key=${SERVICE_API_KEY:dev-api-key}
+         ```
+    - **Note: Please consult with the backend team about DB_USER_CREDENTIALS and DB_PASSWORD_CREDENTIALS values and substitute them using the real values in the application.properties file**
+
+    - After modify the application.properties run the next command:
+    ```bash
+   mvn clean package -DskipTests
+   ```
+2. Create a Dockerfile(if not exist) using the next config: 
+    ```bash
+    FROM eclipse-temurin:21-jre-alpine
+    WORKDIR /app
+    COPY target/inventory_system-0.0.6-SNAPSHOT.jar app.jar
+    EXPOSE 8080
+    ENTRYPOINT ["java", "-jar", "app.jar"]
+    ```
+3. Create docker-compose.yml.
+ 
+**Note:Please consult with the backend team about DB_USER_CREDENTIALS and DB_PASSWORD_CREDENTIALS values and substitute them using the real values in the docker-compose.yml file**
+```yml
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: DB_USER_CREDENTIALS
+      POSTGRES_PASSWORD: DB_PASSWORD_CREDENTIALS
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    build: .
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/inventory_db
+      SPRING_DATASOURCE_USERNAME: DB_USER_CREDENTIALS
+      SPRING_DATASOURCE_PASSWORD: DB_PASSWORD_CREDENTIALS
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
+```
+4. In case you are presenting the next error:
+    ```bash
+    [ERROR] Caused by: The following artifacts could not be resolved: 
+    com.cincinnatiai:ssr-java:pom:0.0.1 (absent): 
+    Could not transfer artifact com.cincinnatiai:
+    ssr-java:pom:0.0.1 from/to github (https://maven.pkg.github.com/nicholaspark09/ssr): 
+    status code: 401, reason phrase: Unauthorized (401)
+    ```
+    - Create .m2 directory:
+        ```bash
+       mkdir -p ~/.m2
+         ```
+    - Create and edit setting.xml files:
+        ```bash
+          nano ~/.m2/settings.xml
+        ```
+    - Add this configuration to setting.xml, updating the username, and token values with the propper credentials:
+        ```xml
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              http://maven.apache.org/xsd/settings-1.0.0.xsd">
+              <servers>
+                  <server>
+                      <id>github</id>
+                      <username>YOUR_GITHUB_USERNAME</username>
+                      <password>YOUR_GITHUB_TOKEN</password>
+                  </server>
+              </servers>
+        </settings>
+      ```
+5. Run the next command to start the container, create the database, run and build our Springboot application: 
+    ```bash
+    docker-compose up --build
+    ```
+6. Access to docker desktop application or run the next command to check if the containers are up and running:
+    ```bash 
+   docker ps
+    ```
+   You should see something like this:
+   ```bash
+    CONTAINER ID   IMAGE                   COMMAND                  CREATED        STATUS                 PORTS                                         NAMES
+    64b101978a9e   inventory_service-app   "java -jar app.jar"      3 hours ago    Up 3 hours             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp   inventory-spring-boot-app
+    c30f0774ade1   postgres:15             "docker-entrypoint.s…"   3 hours ago    Up 3 hours             5432/tcp                                      postgres-inventory-db
+    ```
+   
+
+7. You can run the next command on postman to test teh connection:
+    - http://localhost:8080/actuator/health
+        - Expected response:
+            ```json
+          {
+             "status": "UP"
+          }
+           ```
+    - Try one of the inventory project endpoints, for example:
+        - http://localhost:8080/api/categories
+        - http://localhost:8080/api/products
+        - http://localhost:8080/api/inventory-items
+            - Expected answer for first time:
+               ```json
+              []
+              ```
+      
+        
