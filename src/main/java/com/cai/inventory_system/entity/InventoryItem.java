@@ -16,8 +16,9 @@ public class InventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     private String status;
+    private String title;
+    private String description;
     private String serial_number;
     private String image;
     private Float latitude;

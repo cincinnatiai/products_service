@@ -17,6 +17,8 @@ public class InventoryItemMapper {
         return new InventoryItemDTO(
                 inventoryItem.getId(),
                 inventoryItem.getStatus(),
+                inventoryItem.getTitle(),
+                inventoryItem.getDescription(),
                 inventoryItem.getSerial_number(),
                 inventoryItem.getImage(),
                 inventoryItem.getLatitude(),
@@ -45,6 +47,8 @@ public class InventoryItemMapper {
         return new InventoryItem(
                 inventoryItemDTO.getId(),
                 inventoryItemDTO.getStatus(),
+                inventoryItemDTO.getTitle(),
+                inventoryItemDTO.getDescription(),
                 inventoryItemDTO.getSerial_number(),
                 inventoryItemDTO.getImage(),
                 inventoryItemDTO.getLatitude(),
