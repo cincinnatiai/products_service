@@ -17,35 +17,40 @@ public class InventoryItemMapper {
         return new InventoryItemDTO(
                 inventoryItem.getId(),
                 inventoryItem.getStatus(),
-                inventoryItem.getSerial_number(),
+                inventoryItem.getTitle(),
+                inventoryItem.getDescription(),
+                inventoryItem.getSerialNumber(),
                 inventoryItem.getImage(),
                 inventoryItem.getLatitude(),
                 inventoryItem.getLongitude(),
-                inventoryItem.getCreated_at(),
-                inventoryItem.getUpdated_at(),
+                inventoryItem.getCreatedAt(),
+                inventoryItem.getUpdatedAt(),
                 inventoryItem.getProduct().getId(),
                 inventoryItem.getProduct().getName(),
                 inventoryItem.getLocation() != null ? inventoryItem.getLocation().getId() : null,
                 inventoryItem.getLocation() != null ? inventoryItem.getLocation().getTitle() : null,
-                inventoryItem.getUser_id()
+                inventoryItem.getUserId(),
+                inventoryItem.getAccountId()
         );
     }
 
     public InventoryItem mapToInventoryItem(InventoryItemDTO inventoryItemDTO){
         Product product = new Product();
-        product.setId(inventoryItemDTO.getProduct_id());
+        product.setId(inventoryItemDTO.getProductId());
 
         Location location = null;
-        if (inventoryItemDTO.getLocation_id() != null) {
+        if (inventoryItemDTO.getLocationId() != null) {
             location = new Location();
-            location.setId(inventoryItemDTO.getLocation_id());
+            location.setId(inventoryItemDTO.getLocationId());
         }
 
 
         return new InventoryItem(
                 inventoryItemDTO.getId(),
                 inventoryItemDTO.getStatus(),
-                inventoryItemDTO.getSerial_number(),
+                inventoryItemDTO.getTitle(),
+                inventoryItemDTO.getDescription(),
+                inventoryItemDTO.getSerialNumber(),
                 inventoryItemDTO.getImage(),
                 inventoryItemDTO.getLatitude(),
                 inventoryItemDTO.getLongitude(),
@@ -53,7 +58,8 @@ public class InventoryItemMapper {
                 inventoryItemDTO.getUpdated_at(),
                 product,
                 location,
-                inventoryItemDTO.getUser_id()
+                inventoryItemDTO.getUserId(),
+                inventoryItemDTO.getAccountId()
         );
     }
 

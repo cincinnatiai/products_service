@@ -30,34 +30,35 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+    public CategoryDTO createCategory(CategoryDTO categoryDTO, String accountId) {
         categoryRepository.findByName(categoryDTO.getName()).ifPresent(
                 category -> {
                     throw new ResourceAlreadyExistsException("Category with name " + categoryDTO.getName() + " already exists");
                 }
         );
         Category categoryToSave = categoryMapper.mapToCategory(categoryDTO);
+        categoryToSave.setAccountId(accountId);
         Category savedCategory = categoryRepository.save(categoryToSave);
         return categoryMapper.mapToCategoryDto(savedCategory);
     }
 
     @Override
-    public List<CategoryDTO> getAllCategories() {
-        return categoryMapper.mapToListOfCategoriesDto(categoryRepository.findAll());
+    public List<CategoryDTO> getAllCategoriesByAccount(String accountId) {
+        return categoryMapper.mapToListOfCategoriesDto(categoryRepository.findAllByAccountId(accountId));
     }
 
     @Override
-    public CategoryDTO getCategoryById(String id) {
+    public CategoryDTO getCategoryByIdAndAccountId(String id, String accountId) {
         return categoryMapper.mapToCategoryDto(getCategoryOrThrowException(id));
     }
 
     @Override
-    public void deleteCategoryById(String id) {
+    public void deleteCategory(String id) {
         categoryRepository.deleteById(id);
     }
 
     @Override
-    public CategoryDTO updateCategoryById(CategoryDTO categoryDTO, String id) {
+    public CategoryDTO updateCategoryByIdAndAccountId(CategoryDTO categoryDTO, String id, String accountId) {
 
         categoryRepository.findByName(categoryDTO.getName()).ifPresent(
                 category -> {
@@ -66,24 +67,27 @@ public class CategoryServiceImpl implements CategoryService {
         );
         Category categoryToEdit = getCategoryOrThrowException(id);
         categoryToEdit.setName(categoryDTO.getName());
-        categoryToEdit.setCreated_at(categoryDTO.getCreated_at());
-        categoryToEdit.setUpdated_at(categoryDTO.getUpdated_at());
+        categoryToEdit.setAccountId(accountId);
         Category savedCategory = categoryRepository.save(categoryToEdit);
         return categoryMapper.mapToCategoryDto(savedCategory);
     }
 
     @Override
-    public Page<CategoryDTO> getCategoriesByPage(Pageable pageable) {
-        Page<Category> categories = categoryRepository.findAll(pageable);
+    public Page<CategoryDTO> getCategoriesByPageAndAccountId(Pageable pageable, String accountId) {
+        Page<Category> categories = categoryRepository.findByAccountId(pageable, accountId);
         return categories.map(categoryMapper::mapToCategoryDto);
     }
 
     @Override
-    public List<CategoryDTO> searchCategoriesByName(String name) {
-        List<Category> categories = categoryRepository.findByNameContainingIgnoreCase(name);
+    public List<CategoryDTO> searchCategoriesByNameAndAccount(String name, String accountId) {
+        List<Category> categories = categoryRepository.findByNameContainingIgnoreCaseAndAccountId(name, accountId);
         return categoryMapper.mapToListOfCategoriesDto(categories);
     }
 
+    @Override
+    public List<CategoryDTO> getAllCategories() {
+        return categoryMapper.mapToListOfCategoriesDto(categoryRepository.findAll());
+    }
 
 
 }

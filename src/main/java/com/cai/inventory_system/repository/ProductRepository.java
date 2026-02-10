@@ -12,16 +12,23 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, String>{
 
-    List<Product> findByAccountId(String accountId);
-
-    Page<Product> findByAccountId(String accountId, Pageable pageable);
-
     List<Product> findByAccountCategory(AccountCategoryEntity accountCategory);
     List<Product> findByNameContainingIgnoreCase(String name);
     boolean existsByName(String name);
     Optional<Product> findByName(String name);
     List<Product> findByCategoryId(String categoryId);
     Optional<Product> findByNameAndIdNot(String name, String id);
+    List<Product> findByAccountId(String accountId);
+    Optional<Product> findByIdAndAccountId(String id, String accountId);
+    boolean existsByIdAndAccountId(String id, String accountId);
+    Optional<Product> findByNameAndAccountId(String name, String accountId);
+    boolean existsByNameAndAccountId(String name, String accountId);
+    List<Product> findByNameContainingIgnoreCaseAndAccountId(String name, String accountId);
+    Page<Product> findByAccountId(Pageable pageable, String accountId);
+    List<Product> findByCategoryIdAndAccountId(String categoryId, String accountId);
+    List<Product> findByAccountCategoryAndAccountId(AccountCategoryEntity accountCategory, String accountId);
+    Optional<Product> findByNameAndAccountIdAndIdNot(String name, String accountId, String id);
+    long countByAccountId(String accountId);
 
 
 }

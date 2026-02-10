@@ -7,15 +7,19 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService{
-    ProductDTO createProduct (ProductDTO productDTO);
-    ProductDTO getProductById(String id);
-    List<ProductDTO> getAllProducts();
-    void deleteProduct(String id);
-    ProductDTO updateProduct(ProductDTO productDTO, String id);
-    Page<ProductDTO> getProductsByPage(Pageable pageable);
+
+    void deleteProductByIdAndAccount(String id, String accountId);
     List<ProductDTO> getProductsByAccountId(String accountId);
-    Page<ProductDTO> getProductsByAccountId(String accountId, Pageable pageable);
     List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId);
-    List<ProductDTO> searchProductsByName(String name);
-    List<ProductDTO> searchProductsByCategoryId(String categoryId);
+    List<ProductDTO> getAllProducts();
+    ProductDTO createProduct(ProductDTO productDTO, String accountId);
+    List<ProductDTO> getAllProductsByAccountId(String accountId);
+    ProductDTO getProductByIdAndAccountId(String id, String accountId);
+    ProductDTO updateProductByIdAndAccountId(ProductDTO productDTO, String id, String accountId);
+    Page<ProductDTO> getProductsByPageAndAccountId(Pageable pageable, String accountId);
+    List<ProductDTO> getProductsByIdAndAccountId(String id, String accountId);
+    List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId, String accountId);
+    List<ProductDTO> searchProductsByNameAndAccountId(String name, String accountId);
+    List<ProductDTO> searchProductsByCategoryIdAndAccount(String categoryId, String accountId);
+
 }

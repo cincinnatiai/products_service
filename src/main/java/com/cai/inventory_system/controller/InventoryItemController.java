@@ -4,6 +4,7 @@ import com.cai.inventory_system.dto.InventoryItemDTO;
 import com.cai.inventory_system.repository.InventoryItemRepository;
 import com.cai.inventory_system.service.InventoryItemService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,42 +15,47 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/inventory-items")
+@RequestMapping("api/inventory/items")
 @CrossOrigin("*")
 public class InventoryItemController {
 
     private InventoryItemService inventoryItemService;
 
     @PostMapping
-    public ResponseEntity<InventoryItemDTO> createInventoryItem(@RequestBody InventoryItemDTO inventoryItemDTO){
-        InventoryItemDTO inventoryItem =inventoryItemService.createInventoryItem(inventoryItemDTO);
+    public ResponseEntity<InventoryItemDTO> createInventoryItem(@RequestBody InventoryItemDTO inventoryItemDTO,
+                                                                @RequestParam("accountId") String accountId){
+        InventoryItemDTO inventoryItem =inventoryItemService.createInventoryItem(inventoryItemDTO, accountId);
         return new ResponseEntity<>(inventoryItem, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<InventoryItemDTO> getInventoryItemById(@PathVariable("id") String inventoryItemId){
-        InventoryItemDTO inventoryItemDTO = inventoryItemService.getInventoryItemById(inventoryItemId);
+    public ResponseEntity<InventoryItemDTO> getInventoryItemById(@PathVariable("id") String inventoryItemId,
+                                                                 @RequestParam("accountId") String accountId){
+        InventoryItemDTO inventoryItemDTO = inventoryItemService.getInventoryItemById(inventoryItemId, accountId);
         return ResponseEntity.ok(inventoryItemDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<InventoryItemDTO>> getAllInventoryItems(){
-        List<InventoryItemDTO> inventoryItems = inventoryItemService.getAllInventoryItems();
+    public ResponseEntity<List<InventoryItemDTO>> getAllInventoryItems(@RequestParam("accountId") String accountId){
+        List<InventoryItemDTO> inventoryItems = inventoryItemService.getAllInventoryItemsByAccountId(accountId);
         return ResponseEntity.ok(inventoryItems);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<InventoryItemDTO> updateInventoryItem(@PathVariable("id") String inventoryItemId,
-                                                                @RequestBody InventoryItemDTO updatedItem){
-        InventoryItemDTO inventoryItemDTO = inventoryItemService.updateInventoryItem(updatedItem, inventoryItemId);
+                                                                @RequestBody InventoryItemDTO updatedItem,
+                                                                @RequestParam("accountId") String accountId){
+        InventoryItemDTO inventoryItemDTO = inventoryItemService.updateInventoryItem(updatedItem, inventoryItemId, accountId);
         return ResponseEntity.ok(inventoryItemDTO);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteInventoryItem(@PathVariable("id") String inventoryItemId){
-        inventoryItemService.deleteInventoryItem(inventoryItemId);
+    public ResponseEntity<String> deleteInventoryItem(@PathVariable("id") String inventoryItemId,
+                                                      @RequestParam("accountId") String accountId){
+        inventoryItemService.deleteInventoryItem(inventoryItemId, accountId);
         return ResponseEntity.ok("The Item was deleted from the Inventory successfully");
     }
 
@@ -58,26 +64,35 @@ public class InventoryItemController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction)
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam("accountId") String accountId)
     {
         Sort.Direction dir = direction.equalsIgnoreCase("desc") ?
                 Sort.Direction.DESC : Sort.Direction.ASC;
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(dir, sortBy));
-        Page<InventoryItemDTO> inventoryItems = inventoryItemService.getInventoryItemsByPage(pageable);
+        Page<InventoryItemDTO> inventoryItems = inventoryItemService.getInventoryItemsByPage(pageable, accountId);
         return ResponseEntity.ok(inventoryItems);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<InventoryItemDTO>> searchInventoryItemsByName(
-            @RequestParam("status") String status) {
-        List<InventoryItemDTO> inventoryItems = inventoryItemService.searchInventoryItemsByStatus(status);
+            @RequestParam("title") String title,
+            @RequestParam("accountId") String accountId) {
+        List<InventoryItemDTO> inventoryItems = inventoryItemService.searchInventoryItemsByTitle(title, accountId);
         return ResponseEntity.ok(inventoryItems);
     }
 
     @GetMapping("/by-product/{productId}/all")
-    public ResponseEntity<List<InventoryItemDTO>> getProductsByProductId(@PathVariable String productId){
-        List<InventoryItemDTO> products = inventoryItemService.searchInventoryItemsByProductId(productId);
+    public ResponseEntity<List<InventoryItemDTO>> getProductsByProductId(@PathVariable String productId,
+                                                                         @RequestParam String accountId){
+        List<InventoryItemDTO> products = inventoryItemService.searchInventoryItemsByProductId(productId, accountId);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<InventoryItemDTO>> allInventoryItems(){
+            List<InventoryItemDTO> inventoryItems = inventoryItemService.getAllInventoryItems();
+            return ResponseEntity.ok(inventoryItems);
     }
 }

@@ -1,9 +1,12 @@
 package com.cai.inventory_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,24 +14,42 @@ import lombok.Setter;
 @Setter
 public class  InventoryItemDTO {
 
-    /** This is our primary key **/
+    /**
+     * This is our primary key
+     **/
     private String id;
     private String status;
-    private String serial_number;
+    private String title;
+    private String description;
+
+    @JsonProperty("serial_number")
+    private String serialNumber;
+
     private String image;
     private Float latitude;
     private Float longitude;
-    private String created_at;
-    private String updated_at;
 
-    /** This is a foreign key with for a table products **/
-    private String product_id;
-    private String product_name;
+    @JsonProperty("created_at")
+    private LocalDateTime created_at;
 
-    /** This is a foreign key with for a table locations **/
-    private String location_id;
-    private String location_title;
+    @JsonProperty("updated_at")
+    private LocalDateTime updated_at;
 
-    /** This is a foreign key with for a table users **/
-    private String user_id;
+    @JsonProperty("product_id")
+    private String productId;
+
+    @JsonProperty("product_name")
+    private String productName;
+
+    @JsonProperty("location_id")
+    private String locationId;
+
+    @JsonProperty("location_title")
+    private String locationTitle;
+
+    @JsonProperty("user_id")
+    private String userId;
+
+    @JsonProperty("account_id")
+    private String accountId;
 }

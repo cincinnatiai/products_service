@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +20,24 @@ public class InventoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     private String status;
-    private String serial_number;
+    private String title;
+    private String description;
+
+    @Column(name = "serial_number")
+    private String serialNumber;
+
     private String image;
     private Float latitude;
     private Float longitude;
-    private String created_at;
-    private String updated_at;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -33,5 +47,9 @@ public class InventoryItem {
     @JoinColumn(name = "location_id", nullable = true)
     private Location location;
 
-    private String user_id;
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "account_id")
+    private String accountId;
 }

@@ -11,6 +11,7 @@ import com.cai.inventory_system.exception.ResourceNotFoundException;
 import com.cai.inventory_system.mapper.ProductMapper;
 import com.cai.inventory_system.repository.ProductRepository;
 import com.cai.inventory_system.service.ProductService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -28,62 +29,81 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MessageSource messageSource;
 
-    private Product getProductOrThrowException(String id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product_not_found", null, Locale.getDefault())));
+    private Product getProductOrThrowException(String id, String accountId) {
+        return productRepository.findByIdAndAccountId(id, accountId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messageSource.getMessage("product_not_found", null, Locale.getDefault())
+                ));
     }
 
+
     @Override
-    public ProductDTO createProduct(ProductDTO productDTO) {
+    public ProductDTO createProduct(ProductDTO productDTO, String accountId) {
         productRepository.findByName(productDTO.getName()).ifPresent(
                 product -> {
                     throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
                 }
         );
         Product productToSave = productMapper.mapToProduct(productDTO);
+        productToSave.setAccountId(accountId);
         productRepository.save(productToSave);
         return productMapper.mapToProductDto(productToSave);
     }
 
     @Override
-    public ProductDTO getProductById(String id) {
-        return productMapper.mapToProductDto(getProductOrThrowException(id));
+    public ProductDTO getProductByIdAndAccountId(String id, String accountId) {
+        return productMapper.mapToProductDto(getProductOrThrowException(id, accountId));
     }
 
     @Override
-    public List<ProductDTO> getAllProducts() {
-        return productMapper.mapToListOfProductDto(productRepository.findAll());
+    public List<ProductDTO> getAllProductsByAccountId(String accountId) {
+        return productMapper.mapToListOfProductDto(productRepository.findByAccountId(accountId));
     }
 
     @Override
-    public void deleteProduct(String id) {
-       Product product = productRepository.findById(id).orElseThrow(
-               () -> new ResourceNotFoundException("Product with id " + id + " not found")
-       );
+    @Transactional
+    public void deleteProductByIdAndAccount(String id, String accountId) {
+        Product product = getProductOrThrowException(id, accountId);
         productRepository.delete(product);
     }
 
     @Override
-    public ProductDTO updateProduct(ProductDTO productDTO, String id) {
+    public List<ProductDTO> getProductsByAccountId(String accountId) {
+        return List.of();
+    }
 
-        productRepository.findByNameAndIdNot(productDTO.getName(), id ).ifPresent(
-                product -> {
-                    throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
-                }
-        );
+    @Override
+    public List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId) {
+        return List.of();
+    }
 
+    @Override
+    @Transactional
+    public ProductDTO updateProductByIdAndAccountId(ProductDTO productDTO, String id, String accountId) {
+        Product productToEdit = getProductOrThrowException(id, accountId);
+        if (!productToEdit.getName().equals(productDTO.getName())) {
+            productRepository.findByNameAndAccountIdAndIdNot(productDTO.getName(), accountId, id).ifPresent(
+                    product -> {
+                        throw new ResourceAlreadyExistsException(
+                                "Product with name " + productDTO.getName() + " already exists for this account"
+                        );
+                    }
+            );
+        }
         Manufacturer manufacturer = null;
         if (productDTO.getManufacturer_id() != null) {
             manufacturer = new Manufacturer();
             manufacturer.setId(productDTO.getManufacturer_id());
         }
 
-
-        Category category = new Category();
-        category.setId(productDTO.getCategory_id());
+        Category category = null;
+        if (productDTO.getCategory_id() != null) {
+            category = new Category();
+            category.setId(productDTO.getCategory_id());
+        }
 
         Sku sku = null;
-        if(productDTO.getSku_id() != null){
+        if (productDTO.getSku_id() != null) {
             sku = new Sku();
             sku.setId(productDTO.getSku_id());
         }
@@ -94,57 +114,53 @@ public class ProductServiceImpl implements ProductService {
             accountCategory.setId(productDTO.getAccount_category_id());
         }
 
-        Product productToEdit = getProductOrThrowException(id);
         productToEdit.setName(productDTO.getName());
         productToEdit.setDescription(productDTO.getDescription());
         productToEdit.setQr_code(productDTO.getQr_code());
-        productToEdit.setCreated_at(productDTO.getCreated_at());
-        productToEdit.setUpdated_at(productDTO.getUpdated_at());
         productToEdit.setManufacturer(manufacturer);
         productToEdit.setCategory(category);
         productToEdit.setSku(sku);
         productToEdit.setAccountCategory(accountCategory);
-        productToEdit.setAccountId(productDTO.getAccount_id());
-        Product updatedProduct = productRepository.save(productToEdit);
 
+        Product updatedProduct = productRepository.save(productToEdit);
         return productMapper.mapToProductDto(updatedProduct);
     }
 
+
     @Override
-    public Page<ProductDTO> getProductsByPage(Pageable pageable) {
-        Page<Product> products = productRepository.findAll(pageable);
+    public Page<ProductDTO> getProductsByPageAndAccountId(Pageable pageable, String accountId) {
+        Page<Product> products = productRepository.findByAccountId(pageable, accountId);
         return products.map(productMapper::mapToProductDto);
     }
 
-    @Override
-    public List<ProductDTO> getProductsByAccountId(String accountId) {
+   @Override
+   public List<ProductDTO> getProductsByIdAndAccountId(String id, String accountId) {
         final List<Product> products = productRepository.findByAccountId(accountId);
         return productMapper.mapToListOfProductDto(products);
     }
 
-    @Override
-    public Page<ProductDTO> getProductsByAccountId(String accountId, Pageable pageable) {
-        Page<Product> products = productRepository.findByAccountId(accountId, pageable);
-        return products.map(productMapper::mapToProductDto);
-    }
 
     @Override
-    public List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId) {
+    public List<ProductDTO> getProductsByAccountCategoryId(String accountCategoryId, String accountId) {
         AccountCategoryEntity accountCategory = new AccountCategoryEntity();
         accountCategory.setId(accountCategoryId);
-        final List<Product> products = productRepository.findByAccountCategory(accountCategory);
+        final List<Product> products = productRepository.findByAccountCategoryAndAccountId(accountCategory, accountId);
         return productMapper.mapToListOfProductDto(products);
     }
 
     @Override
-    public List<ProductDTO> searchProductsByName(String name){
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+    public List<ProductDTO> searchProductsByNameAndAccountId(String name, String accountId){
+        List<Product> products = productRepository.findByNameContainingIgnoreCaseAndAccountId(name, accountId);
         return productMapper.mapToListOfProductDto(products);
     }
     @Override
-    public List<ProductDTO> searchProductsByCategoryId(String categoryId){
-        List<Product> products = productRepository.findByCategoryId(categoryId);
+    public List<ProductDTO> searchProductsByCategoryIdAndAccount(String categoryId, String accountId){
+        List<Product> products = productRepository.findByCategoryIdAndAccountId(categoryId,  accountId);
         return productMapper.mapToListOfProductDto(products);
+    }
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        return productMapper.mapToListOfProductDto(productRepository.findAll());
     }
 
 }

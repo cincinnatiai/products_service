@@ -1,9 +1,12 @@
 package com.cai.inventory_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +18,14 @@ public class CategoryDTO {
     private String id;
 
     private String name;
-    private String created_at;
-    private String updated_at;
+
+    @JsonProperty("account_id")
+    private String account_id;
+
+    @JsonProperty("created_at")
+    private LocalDateTime create_at;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updated_at;
+
 }

@@ -17,7 +17,7 @@ import java.util.Locale;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/inventory/products")
 @CrossOrigin("*")
 public class ProductController {
 
@@ -25,32 +25,37 @@ public class ProductController {
     private final MessageSource messageSource;
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable String id) {
-        ProductDTO productDTOFoundById = productService.getProductById(id);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable String id,
+                                                     @RequestParam("accountId") String accountId) {
+        ProductDTO productDTOFoundById = productService.getProductByIdAndAccountId(id, accountId);
         return new ResponseEntity<>(productDTOFoundById, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> allProducts = productService.getAllProducts();
+    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam("accountId") String accountId) {
+        List<ProductDTO> allProducts = productService.getAllProductsByAccountId(accountId);
         return new ResponseEntity<>(allProducts, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO productDTOCreated = productService.createProduct(productDTO);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO,
+                                                    @RequestParam("accountId") String accountId) {
+        ProductDTO productDTOCreated = productService.createProduct(productDTO, accountId);
         return new ResponseEntity<>(productDTOCreated, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable String id) {
-        ProductDTO productDTOEdited = productService.updateProduct(productDTO, id);
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable String id,
+                                                    @RequestParam("accountId") String accountId){
+        ProductDTO productDTOEdited = productService.updateProductByIdAndAccountId(productDTO, id, accountId);
         return ResponseEntity.ok(productDTOEdited);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable String id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<String> deleteProduct(@PathVariable String id,
+                                                @RequestParam("accountId") String accountId
+    ) {
+        productService.deleteProductByIdAndAccount(id,  accountId);
         return  ResponseEntity.ok("The Product was deleted successfully");
     }
 
@@ -59,21 +64,14 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction) {
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam("accountId") String accountId) {
         Sort.Direction dir = direction.equalsIgnoreCase("desc") ?
                 Sort.Direction.DESC : Sort.Direction.ASC;
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(dir, sortBy));
-        Page<ProductDTO> products = productService.getProductsByPage(pageable);
+        Page<ProductDTO> products = productService.getProductsByPageAndAccountId(pageable, accountId);
         return ResponseEntity.ok(products);
-    }
-
-    @PostMapping("/batch")
-    public ResponseEntity<List<ProductDTO>> createBaseProducts(@RequestBody List<ProductDTO> productDTOS) {
-        List<ProductDTO> createdProducts = productDTOS.stream()
-                .map(productService::createProduct)
-                .toList();
-        return new ResponseEntity<>(createdProducts, HttpStatus.CREATED);
     }
 
     @GetMapping("/{accountId}/all")
@@ -85,20 +83,29 @@ public class ProductController {
 
     @GetMapping("/account-category/{accountCategoryId}")
     public ResponseEntity<List<ProductDTO>> getProductsByAccountCategoryId(
-            @PathVariable String accountCategoryId) {
+            @PathVariable String accountCategoryId,
+            @RequestParam("accountId") String accountId) {
         List<ProductDTO> products = productService.getProductsByAccountCategoryId(accountCategoryId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<ProductDTO>> searchProductsByName(@RequestParam String name){
-        List<ProductDTO> matchedProducts = productService.searchProductsByName(name);
+    public ResponseEntity<List<ProductDTO>> searchProductsByName(@RequestParam String name,
+                                                                 @RequestParam("accountId") String accountId){
+        List<ProductDTO> matchedProducts = productService.searchProductsByNameAndAccountId(name, accountId);
         return new ResponseEntity<>(matchedProducts, HttpStatus.OK);
     }
 
     @GetMapping("by-category/{categoryId}/all")
     public ResponseEntity<List<ProductDTO>> getProductsByCategoryId(
-            @PathVariable String categoryId) {
-        List<ProductDTO> products = productService.searchProductsByCategoryId(categoryId);
+            @PathVariable String categoryId,
+            @RequestParam("accountId") String accountId) {
+        List<ProductDTO> products = productService.searchProductsByCategoryIdAndAccount(categoryId, accountId);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductDTO>> allProducts() {
+        List<ProductDTO> allProducts = productService.getAllProducts();
+        return new ResponseEntity<>(allProducts, HttpStatus.OK);
     }
 }
