@@ -64,13 +64,13 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
         inventoryItemDTO.setStatus("ACTIVE");
-        inventoryItemDTO.setSerial_number("1234");
+        inventoryItemDTO.setSerialNumber("1234");
         inventoryItemDTO.setImage("image");
         inventoryItemDTO.setLatitude(1331.123f);
         inventoryItemDTO.setLongitude(0987654.543f);
-        inventoryItemDTO.setLocation_id(location.getId());
-        inventoryItemDTO.setProduct_id(product.getId());
-        inventoryItemDTO.setUser_id("325");
+        inventoryItemDTO.setLocationId(location.getId());
+        inventoryItemDTO.setProductId(product.getId());
+        inventoryItemDTO.setUserId("325");
 
         ResponseEntity<InventoryItemDTO> response = restTemplate.postForEntity(getRootUrl(), inventoryItemDTO, InventoryItemDTO.class);
 
@@ -91,23 +91,23 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
-        inventoryItem.setSerial_number("1234");
+        inventoryItem.setSerialNumber("1234");
         inventoryItem.setImage("image");
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUser_id("325");
+        inventoryItem.setUserId("325");
 
         InventoryItem inventoryItem2 = new InventoryItem();
         inventoryItem2.setStatus("ACTIVE");
-        inventoryItem2.setSerial_number("1234");
+        inventoryItem2.setSerialNumber("1234");
         inventoryItem2.setImage("image");
         inventoryItem2.setLatitude(1331.123f);
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
         inventoryItem2.setLocation(location);
-        inventoryItem2.setUser_id("325");
+        inventoryItem2.setUserId("325");
 
 
         inventoryItemRepository.saveAll(Arrays.asList(inventoryItem, inventoryItem2));
@@ -130,23 +130,23 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
-        inventoryItem.setSerial_number("1234");
+        inventoryItem.setSerialNumber("1234");
         inventoryItem.setImage("image");
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUser_id("325");
+        inventoryItem.setUserId("325");
 
         InventoryItem inventoryItem2 = new InventoryItem();
         inventoryItem2.setStatus("ACTIVE");
-        inventoryItem2.setSerial_number("1234");
+        inventoryItem2.setSerialNumber("1234");
         inventoryItem2.setImage("image");
         inventoryItem2.setLatitude(1331.123f);
         inventoryItem2.setLongitude(0987654.543f);
         inventoryItem2.setProduct(product);
         inventoryItem2.setLocation(location);
-        inventoryItem2.setUser_id("325");
+        inventoryItem2.setUserId("325");
 
         inventoryItemRepository.saveAll(Arrays.asList(inventoryItem, inventoryItem2));
         ResponseEntity<PaginationResponse<InventoryItemDTO>> response = restTemplate.exchange(
@@ -173,13 +173,13 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
-        inventoryItem.setSerial_number("1234");
+        inventoryItem.setSerialNumber("1234");
         inventoryItem.setImage("image");
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUser_id("325");
+        inventoryItem.setUserId("325");
 
         inventoryItem = inventoryItemRepository.save(inventoryItem);
 
@@ -203,25 +203,25 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
-        inventoryItem.setSerial_number("1234");
+        inventoryItem.setSerialNumber("1234");
         inventoryItem.setImage("image");
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUser_id("325");
+        inventoryItem.setUserId("325");
 
         inventoryItem = inventoryItemRepository.save(inventoryItem);
 
         InventoryItemDTO updated = new InventoryItemDTO();
         updated.setStatus("UPDATED");
-        updated.setSerial_number("5678");
+        updated.setSerialNumber("5678");
         updated.setImage("new_image");
         updated.setLatitude(1234.567f);
         updated.setLongitude(8765.432f);
-        updated.setProduct_id(product.getId());
-        updated.setLocation_id(location.getId());
-        updated.setUser_id("3251");
+        updated.setProductId(product.getId());
+        updated.setLocationId(location.getId());
+        updated.setUserId("3251");
 
         HttpEntity<InventoryItemDTO> requestEntity = new HttpEntity<>(updated);
         ResponseEntity<InventoryItemDTO> response = restTemplate.exchange(
@@ -249,13 +249,13 @@ public class InventoryItemControllerIntegrationTest {
 
         InventoryItem inventoryItem = new InventoryItem();
         inventoryItem.setStatus("ACTIVE");
-        inventoryItem.setSerial_number("1234");
+        inventoryItem.setSerialNumber("1234");
         inventoryItem.setImage("image");
         inventoryItem.setLatitude(1331.123f);
         inventoryItem.setLongitude(0987654.543f);
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUser_id("325");
+        inventoryItem.setUserId("325");
 
         ResponseEntity<Void> deleteResponse = restTemplate.exchange(
                 getRootUrl() + "/" + inventoryItem.getId(),

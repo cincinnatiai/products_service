@@ -26,34 +26,34 @@ public class ProductController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable String id,
-                                                     @RequestParam("accountId") String accountId) {
+                                                     @RequestHeader("x-account-id") String accountId) {
         ProductDTO productDTOFoundById = productService.getProductByIdAndAccountId(id, accountId);
         return new ResponseEntity<>(productDTOFoundById, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam("accountId") String accountId) {
+    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestHeader("x-account-id") String accountId) {
         List<ProductDTO> allProducts = productService.getAllProductsByAccountId(accountId);
         return new ResponseEntity<>(allProducts, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO,
-                                                    @RequestParam("accountId") String accountId) {
+                                                    @RequestHeader("x-account-id") String accountId) {
         ProductDTO productDTOCreated = productService.createProduct(productDTO, accountId);
         return new ResponseEntity<>(productDTOCreated, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable String id,
-                                                    @RequestParam("accountId") String accountId){
+                                                    @RequestHeader("x-account-id") String accountId){
         ProductDTO productDTOEdited = productService.updateProductByIdAndAccountId(productDTO, id, accountId);
         return ResponseEntity.ok(productDTOEdited);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable String id,
-                                                @RequestParam("accountId") String accountId
+                                                @RequestHeader("x-account-id") String accountId
     ) {
         productService.deleteProductByIdAndAccount(id,  accountId);
         return  ResponseEntity.ok("The Product was deleted successfully");
@@ -65,7 +65,7 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            @RequestParam("accountId") String accountId) {
+            @RequestHeader("x-account-id") String accountId) {
         Sort.Direction dir = direction.equalsIgnoreCase("desc") ?
                 Sort.Direction.DESC : Sort.Direction.ASC;
 
@@ -84,13 +84,13 @@ public class ProductController {
     @GetMapping("/account-category/{accountCategoryId}")
     public ResponseEntity<List<ProductDTO>> getProductsByAccountCategoryId(
             @PathVariable String accountCategoryId,
-            @RequestParam("accountId") String accountId) {
+            @RequestHeader("x-account-id") String accountId) {
         List<ProductDTO> products = productService.getProductsByAccountCategoryId(accountCategoryId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
     @GetMapping("/search")
     public ResponseEntity<List<ProductDTO>> searchProductsByName(@RequestParam String name,
-                                                                 @RequestParam("accountId") String accountId){
+                                                                 @RequestHeader("x-account-id") String accountId){
         List<ProductDTO> matchedProducts = productService.searchProductsByNameAndAccountId(name, accountId);
         return new ResponseEntity<>(matchedProducts, HttpStatus.OK);
     }
@@ -98,7 +98,7 @@ public class ProductController {
     @GetMapping("by-category/{categoryId}/all")
     public ResponseEntity<List<ProductDTO>> getProductsByCategoryId(
             @PathVariable String categoryId,
-            @RequestParam("accountId") String accountId) {
+            @RequestHeader("x-account-id") String accountId) {
         List<ProductDTO> products = productService.searchProductsByCategoryIdAndAccount(categoryId, accountId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

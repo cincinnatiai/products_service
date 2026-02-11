@@ -27,20 +27,20 @@ public class CategoryController {
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable String id,
-                                                       @RequestParam("accountId") String accountId){
+                                                       @RequestHeader("x-account-id") String accountId){
         CategoryDTO categoryDTOFoundById = categoryService.getCategoryByIdAndAccountId(id, accountId);
         return new ResponseEntity<>(categoryDTOFoundById, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getAllCategories(@RequestParam("accountId") String accountId){
+    public ResponseEntity<List<CategoryDTO>> getAllCategories(@RequestHeader("x-account-id") String accountId){
         List<CategoryDTO> allCategories = categoryService.getAllCategoriesByAccount(accountId);
         return new ResponseEntity<>(allCategories, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO,
-                                                      @RequestParam("accountId") String accountId){
+                                                      @RequestHeader("x-account-id") String accountId){
         CategoryDTO categoryCreated = categoryService.createCategory(categoryDTO, accountId);
         return new ResponseEntity<>(categoryCreated, HttpStatus.CREATED);
     }
@@ -54,7 +54,7 @@ public class CategoryController {
     @PutMapping("{id}")
     public ResponseEntity<CategoryDTO> updateCategoryById(@RequestBody CategoryDTO categoryDTO,
                                                           @PathVariable String id,
-                                                          @RequestParam("accountId") String accountId){
+                                                          @RequestHeader("x-account-id") String accountId){
         CategoryDTO categoryEdited = categoryService.updateCategoryByIdAndAccountId(categoryDTO, id, accountId);
         return new ResponseEntity<>(categoryEdited, HttpStatus.OK);
     }
@@ -65,7 +65,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            @RequestParam("accountId") String accountId)
+            @RequestHeader("x-account-id") String accountId)
     {
         Sort.Direction dir = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 
@@ -76,7 +76,7 @@ public class CategoryController {
 
     @GetMapping("/search")
     public ResponseEntity<List<CategoryDTO>> searchCategoriesByName(@RequestParam String name,
-                                                                    @RequestParam("accountId") String accountId) {
+                                                                    @RequestHeader("x-account-id") String accountId) {
         List<CategoryDTO> matchedCategories = categoryService.searchCategoriesByNameAndAccount(name, accountId);
         return new ResponseEntity<>(matchedCategories, HttpStatus.OK);
     }

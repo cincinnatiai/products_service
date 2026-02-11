@@ -26,20 +26,20 @@ public class InventoryItemController {
 
     @PostMapping
     public ResponseEntity<InventoryItemDTO> createInventoryItem(@RequestBody InventoryItemDTO inventoryItemDTO,
-                                                                @RequestParam("accountId") String accountId){
+                                                                @RequestHeader("x-account-id") String accountId){
         InventoryItemDTO inventoryItem =inventoryItemService.createInventoryItem(inventoryItemDTO, accountId);
         return new ResponseEntity<>(inventoryItem, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<InventoryItemDTO> getInventoryItemById(@PathVariable("id") String inventoryItemId,
-                                                                 @RequestParam("accountId") String accountId){
+                                                                 @RequestHeader("x-account-id") String accountId){
         InventoryItemDTO inventoryItemDTO = inventoryItemService.getInventoryItemById(inventoryItemId, accountId);
         return ResponseEntity.ok(inventoryItemDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<InventoryItemDTO>> getAllInventoryItems(@RequestParam("accountId") String accountId){
+    public ResponseEntity<List<InventoryItemDTO>> getAllInventoryItems(@RequestHeader("x-account-id") String accountId){
         List<InventoryItemDTO> inventoryItems = inventoryItemService.getAllInventoryItemsByAccountId(accountId);
         return ResponseEntity.ok(inventoryItems);
     }
@@ -47,14 +47,14 @@ public class InventoryItemController {
     @PutMapping("{id}")
     public ResponseEntity<InventoryItemDTO> updateInventoryItem(@PathVariable("id") String inventoryItemId,
                                                                 @RequestBody InventoryItemDTO updatedItem,
-                                                                @RequestParam("accountId") String accountId){
+                                                                @RequestHeader("x-account-id") String accountId){
         InventoryItemDTO inventoryItemDTO = inventoryItemService.updateInventoryItem(updatedItem, inventoryItemId, accountId);
         return ResponseEntity.ok(inventoryItemDTO);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteInventoryItem(@PathVariable("id") String inventoryItemId,
-                                                      @RequestParam("accountId") String accountId){
+                                                      @RequestHeader("x-account-id") String accountId){
         inventoryItemService.deleteInventoryItem(inventoryItemId, accountId);
         return ResponseEntity.ok("The Item was deleted from the Inventory successfully");
     }
@@ -65,7 +65,7 @@ public class InventoryItemController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            @RequestParam("accountId") String accountId)
+            @RequestHeader("x-account-id") String accountId)
     {
         Sort.Direction dir = direction.equalsIgnoreCase("desc") ?
                 Sort.Direction.DESC : Sort.Direction.ASC;
@@ -78,14 +78,14 @@ public class InventoryItemController {
     @GetMapping("/search")
     public ResponseEntity<List<InventoryItemDTO>> searchInventoryItemsByName(
             @RequestParam("title") String title,
-            @RequestParam("accountId") String accountId) {
+            @RequestParam("x-account-id") String accountId) {
         List<InventoryItemDTO> inventoryItems = inventoryItemService.searchInventoryItemsByTitle(title, accountId);
         return ResponseEntity.ok(inventoryItems);
     }
 
     @GetMapping("/by-product/{productId}/all")
     public ResponseEntity<List<InventoryItemDTO>> getProductsByProductId(@PathVariable String productId,
-                                                                         @RequestParam String accountId){
+                                                                         @RequestHeader("x-account-id") String accountId){
         List<InventoryItemDTO> products = inventoryItemService.searchInventoryItemsByProductId(productId, accountId);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
