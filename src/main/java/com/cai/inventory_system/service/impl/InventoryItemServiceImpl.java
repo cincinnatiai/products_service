@@ -78,14 +78,14 @@ public class InventoryItemServiceImpl implements InventoryItemService {
         }
         inventoryItem.setStatus(inventoryItemDTO.getStatus());
         inventoryItem.setTitle(inventoryItemDTO.getTitle());
-        inventoryItem.setDescription(inventoryItem.getDescription());
+        inventoryItem.setDescription(inventoryItemDTO.getDescription());
         inventoryItem.setSerialNumber(inventoryItemDTO.getSerialNumber());
         inventoryItem.setImage(inventoryItemDTO.getImage());
         inventoryItem.setLatitude(inventoryItemDTO.getLatitude());
         inventoryItem.setLongitude(inventoryItemDTO.getLongitude());
         inventoryItem.setProduct(product);
         inventoryItem.setLocation(location);
-        inventoryItem.setUserId(inventoryItem.getUserId());
+        inventoryItem.setUserId(inventoryItemDTO.getUserId());
         InventoryItem updatedItem = inventoryItemRepository.save(inventoryItem);
         return inventoryItemMapper.mapToInventoryItemDTO(updatedItem);
     }
