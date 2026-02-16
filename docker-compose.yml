@@ -6,26 +6,44 @@ services:
     container_name: inventory_postgres-db
     environment:
       POSTGRES_DB: inventory_db
-      POSTGRES_USER: USER_CREDENTIALS
-      POSTGRES_PASSWORD: PASSWORD_CREDENTIALS
+      POSTGRES_USER: DB_USER_CREDENTIALS
+      POSTGRES_PASSWORD: DB_PASSWORD_CREDENTIALS
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: inventory_tailscale
+    hostname: inventory-springboot
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - tailscale-data:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: unless-stopped
     networks:
       - app-network
 
   app:
     build: .
     container_name: inventory_spring-boot-app
-    ports:
-      - "8080:8080"
+    network_mode: "service:tailscale"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/inventory_db
-      SPRING_DATASOURCE_USERNAME: USER_CREDENTIALS
-      SPRING_DATASOURCE_PASSWORD: PASSWORD_CREDENTIALS
+      SPRING_DATASOURCE_USERNAME: DB_USER_CREDENTIALS
+      SPRING_DATASOURCE_PASSWORD: DB_PASSWORD_CREDENTIALS
+      AUTHORIZATION_ENDPOINT: ${AUTHORIZATION_ENDPOINT:-http://localhost:8081}
+      SERVICE_API_KEY: ${SERVICE_API_KEY:-dev-api-key}
     depends_on:
       - database
-    networks:
-      - app-network
+      - tailscale
 
 networks:
   app-network:
@@ -33,3 +51,4 @@ networks:
 
 volumes:
   db-data:
+  tailscale-data:

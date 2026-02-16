@@ -14,8 +14,9 @@ public class CategoryMapper {
         return new CategoryDTO(
                 category.getId(),
                 category.getName(),
-                category.getCreated_at(),
-                category.getUpdated_at()
+                category.getAccountId(),
+                category.getCreatedAt(),
+                category.getUpdatedAt()
         );
     }
 
@@ -23,7 +24,8 @@ public class CategoryMapper {
         return new Category(
                 categoryDTO.getId(),
                 categoryDTO.getName(),
-                categoryDTO.getCreated_at(),
+                categoryDTO.getAccount_id(),
+                categoryDTO.getCreate_at(),
                 categoryDTO.getUpdated_at()
         );
     }
