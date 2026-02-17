@@ -465,3 +465,4 @@ volumes:
               ```
       
 ## 8. Architecture System Diagram
+![Architecture Diagram](src/main/resources/documents/inventoryServiceSystemDiagram.png)
