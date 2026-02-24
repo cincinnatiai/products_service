@@ -1,0 +1,20 @@
+title PROD
+
+
+participant Startup Facade
+participant Inventory Facade EC2
+participant Inventory Service
+database inventory_db
+
+Startup Facade->Inventory Facade EC2: Apigateway request\n header: x-api-key
+
+note over Startup Facade,Inventory Facade EC2:Need to provide the header "x-api-key" to pass the Apigateway
+Inventory Facade EC2->Inventory Service: API request()\n
+note right of Inventory Facade EC2:The inventory facade uses a Tailscale network to the inventory service that exits running in a local computer\n
+Inventory Service-> inventory_db:Postgress Query using springboot JPA repository to perform database consult
+note right of Inventory Service: Inventory service, inventory database and  our tailscale\n connection live at the same docker network   
+Inventory Service<--inventory_db:Inventory data 
+Inventory Facade EC2<--Inventory Service: Inventory service response\n
+Startup Facade<--Inventory Facade EC2: API response
+
+
