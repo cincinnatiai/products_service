@@ -24,14 +24,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final MessageSource messageSource;
 
-    private Category getCategoryOrThrowException(String id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("product_not_found", null, Locale.getDefault())));
+    private Category getCategoryOrThrowException(String id, String accountId) {
+        return categoryRepository.findByIdAndAccountId(id, accountId)
+                .orElseThrow(() -> new ResourceNotFoundException(messageSource.getMessage("category_not_found", null, Locale.getDefault())));
     }
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO, String accountId) {
-        categoryRepository.findByName(categoryDTO.getName()).ifPresent(
+        categoryRepository.findByNameAndAccountId(categoryDTO.getName(), accountId).ifPresent(
                 category -> {
                     throw new ResourceAlreadyExistsException("Category with name " + categoryDTO.getName() + " already exists");
                 }
@@ -49,23 +49,24 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByIdAndAccountId(String id, String accountId) {
-        return categoryMapper.mapToCategoryDto(getCategoryOrThrowException(id));
+        return categoryMapper.mapToCategoryDto(getCategoryOrThrowException(id, accountId));
     }
 
     @Override
-    public void deleteCategory(String id) {
-        categoryRepository.deleteById(id);
+    public void deleteCategoryByIdAndAccountId(String id, String accountId) {
+        Category category = getCategoryOrThrowException(id, accountId);
+        categoryRepository.delete(category);
     }
 
     @Override
     public CategoryDTO updateCategoryByIdAndAccountId(CategoryDTO categoryDTO, String id, String accountId) {
 
-        categoryRepository.findByName(categoryDTO.getName()).ifPresent(
+        categoryRepository.findByNameAndAccountId(categoryDTO.getName(), accountId).ifPresent(
                 category -> {
                     throw new ResourceAlreadyExistsException("Category with name " + categoryDTO.getName() + " already exists");
                 }
         );
-        Category categoryToEdit = getCategoryOrThrowException(id);
+        Category categoryToEdit = getCategoryOrThrowException(id, accountId);
         categoryToEdit.setName(categoryDTO.getName());
         categoryToEdit.setAccountId(accountId);
         Category savedCategory = categoryRepository.save(categoryToEdit);

@@ -78,7 +78,7 @@ public class InventoryItemController {
     @GetMapping("/search")
     public ResponseEntity<List<InventoryItemDTO>> searchInventoryItemsByName(
             @RequestParam("title") String title,
-            @RequestParam("x-account-id") String accountId) {
+            @RequestHeader("x-account-id") String accountId) {
         List<InventoryItemDTO> inventoryItems = inventoryItemService.searchInventoryItemsByTitle(title, accountId);
         return ResponseEntity.ok(inventoryItems);
     }

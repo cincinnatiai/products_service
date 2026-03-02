@@ -17,4 +17,5 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
     Optional<Category> findByIdAndAccountId(String id, String accountId);
     List<Category> findByNameContainingIgnoreCaseAndAccountId(String name, String accountId);
     Page<Category> findByAccountId(Pageable pageable, String accountId);
+    Category findCategoryByIdAndAccountId(String id, String accountId);
 }

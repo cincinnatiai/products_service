@@ -10,7 +10,7 @@ public interface CategoryService {
     CategoryDTO createCategory(CategoryDTO categoryDTO, String accountId);
     List<CategoryDTO> getAllCategoriesByAccount(String accountId);
     CategoryDTO getCategoryByIdAndAccountId(String id, String accountId);
-    void deleteCategory(String id);
+    void deleteCategoryByIdAndAccountId(String id,  String accountId);
     CategoryDTO updateCategoryByIdAndAccountId(CategoryDTO categoryDTO, String id, String accountId);
     Page<CategoryDTO> getCategoriesByPageAndAccountId(Pageable pageable, String accountId);
     List<CategoryDTO> searchCategoriesByNameAndAccount(String name, String accountId);
