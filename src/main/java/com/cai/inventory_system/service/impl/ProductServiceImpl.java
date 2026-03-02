@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO, String accountId) {
-        productRepository.findByName(productDTO.getName()).ifPresent(
+        productRepository.findByNameAndAccountId(productDTO.getName(), accountId).ifPresent(
                 product -> {
                     throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
                 }
