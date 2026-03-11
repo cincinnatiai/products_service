@@ -1,0 +1,18 @@
+title DEV 
+
+
+participant Startup Facade
+participant Inventory Facade EC2
+participant EC2 Inventory Dev
+database RDS inventory_db
+
+Startup Facade->Inventory Facade EC2: Apigateway request\n header: x-api-key
+note over Startup Facade,Inventory Facade EC2:Need to provide api key to access the Apigateway
+Inventory Facade EC2->EC2 Inventory Dev: API request
+note right of Inventory Facade EC2:Retrofit configuration to perform request at\n the VPC that contains the Inventory Springboot\n application running in a EC2 instance
+EC2 Inventory Dev-> RDS inventory_db:Postgress Query using springboot JPA repository to perform database consult
+EC2 Inventory Dev<--RDS inventory_db:Inventory data 
+Inventory Facade EC2<--EC2 Inventory Dev: API Response
+Startup Facade<--Inventory Facade EC2: API response
+
+

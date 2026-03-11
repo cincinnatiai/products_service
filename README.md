@@ -463,6 +463,17 @@ volumes:
                ```json
               []
               ```
-      
-## 8. Architecture System Diagram
-![Architecture Diagram](src/main/resources/documents/inventoryServiceSystemDiagram.png)
+
+## 8. Low-Level Design (LLD):
+
+### Architecture Diagram:
+![Architecture Diagram](src/main/resources/documents/inventoryArchitectureDiagrams.svg)
+
+### Sequence Diagram PROD:
+![Sequence Diagram](src/main/resources/documents/inventorySequenceDiagramPROD.svg)
+
+### Sequence Diagram DEV:
+![Sequence Diagram](src/main/resources/documents/inventorySequenceDiagramDEV.svg)
+
+
+**Note: You can find the diagrams as txt files in the next path in this project: src/main/resources/documents**
